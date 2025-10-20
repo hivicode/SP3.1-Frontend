@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pertemuan 5 - Event Handling</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .main-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .main-card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 3px solid transparent;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            border-color: #667eea;
+        }
+
+        .card-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .card-description {
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .card-features {
+            list-style: none;
+            margin: 15px 0;
+        }
+
+        .card-features li {
+            padding: 5px 0;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .card-features li:before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .card-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .card-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .featured-card {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            grid-column: 1 / -1;
+        }
+
+        .featured-card .card-title {
+            color: #0d47a1;
+        }
+
+        .featured-card .card-link {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .info-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .info-box h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .info-box p {
+            color: #856404;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            padding: 20px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-card {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ Event Handling in JavaScript</h1>
+            <p>Pertemuan 5 - Latihan Penggunaan Object Select, Checkbox, Radio Button, dan Event Processing</p>
+        </div>
+
+        <div class="main-card">
+            <h2>📚 Daftar Latihan</h2>
+            
+            <div class="info-box">
+                <h3>💡 Tentang Latihan Ini</h3>
+                <p>
+                    Kumpulan latihan untuk memahami berbagai jenis event dalam JavaScript. 
+                    Setiap file fokus pada satu jenis event dengan contoh interaktif dan penjelasan lengkap.
+                    Semua latihan dilengkapi dengan Event Log real-time untuk melihat event yang terjadi.
+                </p>
+            </div>
+
+            <div class="cards-grid">
+                <!-- Featured Card - Main Program -->
+                <div class="card featured-card">
+                    <div class="card-icon">🏍️</div>
+                    <div class="card-title">Program Penjualan Motor (All Events)</div>
+                    <div class="card-description">
+                        Program lengkap yang mengimplementasikan semua jenis event handling dalam satu aplikasi.
+                        Program penjualan motor dengan fitur perhitungan otomatis, validasi, dan event monitoring.
+                    </div>
+                    <ul class="card-features">
+                        <li>Click Events - Tombol proses & reset</li>
+                        <li>Mouse Events - Hover effects & tracking</li>
+                        <li>Keyboard Events - Shortcuts & input tracking</li>
+                        <li>Change Events - Select, checkbox, radio</li>
+                        <li>Form Events - Submit, focus, blur, validation</li>
+                        <li>Custom Events - Price calculation & purchase complete</li>
+                        <li>Real-time Event Log</li>
+                    </ul>
+                    <a href="program_penjualan_motor.html" class="card-link">Buka Program Utama →</a>
+                </div>
+
+                <!-- Event Click -->
+                <div class="card">
+                    <div class="card-icon">👆</div>
+                    <div class="card-title">1. Event Click</div>
+                    <div class="card-description">
+                        Belajar menangani event klik pada elemen HTML seperti button, div, dan elemen lainnya.
+                    </div>
+                    <ul class="card-features">
+                        <li>Click event</li>
+                        <li>Double click</li>
+                        <li>Right click (contextmenu)</li>
+                        <li>Click counter</li>
+                    </ul>
+                    <a href="1_event_click.html" class="card-link">Lihat Demo →</a>
+                </div>
+
+                <!-- Event Mouse -->
+                <div class="card">
+                    <div class="card-icon">🖱️</div>
+                    <div class="card-title">2. Event Mouse</div>
+                    <div class="card-description">
+                        Menangani berbagai event mouse seperti hover, move, dan tracking posisi mouse.
+                    </div>
+                    <ul class="card-features">
+                        <li>MouseOver & MouseOut</li>
+                        <li>MouseEnter & MouseLeave</li>
+                        <li>Mouse movement tracking</li>
+                        <li>Mouse button detection</li>
+                    </ul>
+                    <a href="2_event_mouse.html" class="card-link">Lihat Demo →</a>
+                </div>
+
+                <!-- Event Keyboard -->
+                <div class="card">
+                    <div class="card-icon">⌨️</div>
+                    <div class="card-title">3. Event Keyboard</div>
+                    <div class="card-description">
+                        Menangani input keyboard, shortcuts, dan key combinations untuk interaksi yang lebih kaya.
+                    </div>
+                    <ul class="card-features">
+                        <li>KeyDown, KeyUp, KeyPress</li>
+                        <li>Keyboard shortcuts</li>
+                        <li>Key display & detection</li>
+                        <li>Text counter</li>
+                    </ul>
+                    <a href="3_event_keyboard.html" class="card-link">Lihat Demo →</a>
+                </div>
+
+                <!-- Event Change -->
+                <div class="card">
+                    <div class="card-icon">🔄</div>
+                    <div class="card-title">4. Event Change</div>
+                    <div class="card-description">
+                        Mendeteksi perubahan nilai pada form input, select, checkbox, dan radio button.
+                    </div>
+                    <ul class="card-features">
+                        <li>Select dropdown change</li>
+                        <li>Checkbox & radio change</li>
+                        <li>Input change vs input event</li>
+                        <li>Live preview form data</li>
+                    </ul>
+                    <a href="4_event_change.html" class="card-link">Lihat Demo →</a>
+                </div>
+
+                <!-- Event Form -->
+                <div class="card">
+                    <div class="card-icon">📝</div>
+                    <div class="card-title">5. Event Form</div>
+                    <div class="card-description">
+                        Menangani event form seperti submit, reset, focus, blur, dan validasi form.
+                    </div>
+                    <ul class="card-features">
+                        <li>Form submit & reset</li>
+                        <li>Focus & blur events</li>
+                        <li>Form validation</li>
+                        <li>Real-time input feedback</li>
+                    </ul>
+                    <a href="5_event_form.html" class="card-link">Lihat Demo →</a>
+                </div>
+
+                <!-- Custom Events -->
+                <div class="card">
+                    <div class="card-icon">🎯</div>
+                    <div class="card-title">6. Custom Events</div>
+                    <div class="card-description">
+                        Membuat dan menggunakan custom events untuk komunikasi antar komponen aplikasi.
+                    </div>
+                    <ul class="card-features">
+                        <li>Simple custom events</li>
+                        <li>CustomEvent dengan data</li>
+                        <li>Event bubbling</li>
+                        <li>Shopping cart demo</li>
+                    </ul>
+                    <a href="6_event_custom.html" class="card-link">Lihat Demo →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>📖 Baca <a href="README.md" style="color: white; text-decoration: underline;">README.md</a> untuk dokumentasi lengkap</p>
+            <p style="margin-top: 10px;">Pertemuan 5 - Event Handling in JavaScript</p>
+        </div>
+    </div>
+
+    <script>
+        // Add subtle animation on card click
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                if (e.target.tagName !== 'A') {
+                    this.querySelector('.card-link').click();
+                }
+            });
+        });
+
+        // Console welcome message
+        console.log('%c🎓 Welcome to Event Handling Demo! ', 'background: #667eea; color: white; font-size: 20px; padding: 10px;');
+        console.log('%cExplore each demo to learn about different event types in JavaScript!', 'color: #667eea; font-size: 14px;');
+    </script>
+</body>
+</html>
