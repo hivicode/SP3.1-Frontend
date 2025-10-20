@@ -16,6 +16,16 @@ Berisi materi pembelajaran fungsi dan modul JavaScript:
 - **Modul**: Export/import ES6 modules
 - **Latihan**: Aplikasi manajemen barang sederhana
 
+### 📁 pertemuan_5/
+Berisi materi pembelajaran event handling JavaScript:
+- **Event Click**: Click, double click, context menu
+- **Event Mouse**: MouseOver, MouseOut, MouseMove, MouseDown/Up
+- **Event Keyboard**: KeyDown, KeyUp, keyboard shortcuts
+- **Event Change**: Select, input, checkbox, radio change
+- **Event Form**: Submit, reset, focus, blur, validation
+- **Custom Events**: Membuat dan menggunakan custom events
+- **Program Utama**: Aplikasi penjualan motor dengan semua jenis event
+
 ## Cara Menjalankan
 
 1. Buka file HTML di browser
