@@ -26,6 +26,13 @@ Berisi materi pembelajaran event handling JavaScript:
 - **Custom Events**: Membuat dan menggunakan custom events
 - **Program Utama**: Aplikasi penjualan motor dengan semua jenis event
 
+### 📁 pertemuan_6/
+Berisi materi pembelajaran AJAX dan DOM manipulation:
+- **AJAX**: XMLHttpRequest, JSON data loading, asynchronous programming
+- **DOM Manipulation**: Select bertingkat, dynamic content creation
+- **Tugas Praktis**: Kalkulator biaya kirim paket dengan validasi form
+- **Data Formats**: JSON dan XML data handling
+
 ## Cara Menjalankan
 
 1. Buka file HTML di browser
