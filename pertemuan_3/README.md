@@ -1,10 +1,10 @@
 # Pertemuan 3 - JavaScript Dasar
 
-Folder ini berisi materi pembelajaran JavaScript dasar meliputi array, percabangan, dan perulangan.
+Folder ini berisi materi pembelajaran JavaScript dasar meliputi array, percabangan, dan perulangan. Setiap konsep dilengkapi dengan contoh praktis dan latihan interaktif.
 
 ## 📋 Materi yang Dipelajari
 
-### 1. Array
+### 1. Array Operations
 - **array1.html** & **array1.js** - Konsep dasar array dan cara mengakses elemen
 - **array_tambah_data.html** - Menambahkan data ke array (push, unshift)
 - **array_hapus_data_depan.html** - Menghapus data dari depan array (shift)
