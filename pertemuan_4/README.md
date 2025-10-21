@@ -1,6 +1,6 @@
 # Pertemuan 4 - Fungsi dan Modul JavaScript
 
-Folder ini berisi materi pembelajaran fungsi dan modul JavaScript, termasuk parameter, callback, dan ES6 modules.
+Folder ini berisi materi pembelajaran fungsi dan modul JavaScript, termasuk parameter, callback, dan ES6 modules. Dilengkapi dengan aplikasi praktis untuk manajemen barang.
 
 ## 📋 Struktur Folder
 
@@ -15,6 +15,10 @@ Folder ini berisi materi pembelajaran fungsi dan modul JavaScript, termasuk para
 ### 📁 latihan/ - Latihan Praktis
 - **index.html** - Interface aplikasi manajemen barang
 - **fungsi.js** - Implementasi CRUD dengan fungsi
+
+### 📁 latihan copy/ - Backup Latihan
+- **index.html** - Backup interface aplikasi
+- **fungsi.js** - Backup implementasi CRUD
 
 ### 📁 module / - ES6 Modules
 - **bola.js** - Modul untuk menghitung volume bola
