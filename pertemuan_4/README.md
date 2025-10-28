@@ -2,9 +2,9 @@
 
 Folder ini berisi materi pembelajaran fungsi dan modul JavaScript, termasuk parameter, callback, dan ES6 modules. Dilengkapi dengan aplikasi praktis untuk manajemen barang.
 
-## 📋 Struktur Folder
+## Struktur Folder
 
-### 📁 1/ - Konsep Dasar Fungsi
+### 1/ - Konsep Dasar Fungsi
 - **1_required_parameter.js** - Fungsi dengan parameter wajib
 - **2_optional_parameter** - Fungsi dengan parameter opsional
 - **3_callback_function.js** - Implementasi callback function
@@ -12,22 +12,22 @@ Folder ini berisi materi pembelajaran fungsi dan modul JavaScript, termasuk para
 - **5_rest_parameter.js** - Menggunakan rest parameter (...)
 - **pertemuan 4.js** - Ringkasan konsep fungsi
 
-### 📁 latihan/ - Latihan Praktis
+### latihan/ - Latihan Praktis
 - **index.html** - Interface aplikasi manajemen barang
 - **fungsi.js** - Implementasi CRUD dengan fungsi
 
-### 📁 latihan copy/ - Backup Latihan
+### latihan copy/ - Backup Latihan
 - **index.html** - Backup interface aplikasi
 - **fungsi.js** - Backup implementasi CRUD
 
-### 📁 module / - ES6 Modules
+### module / - ES6 Modules
 - **bola.js** - Modul untuk menghitung volume bola
 - **lingkaran.js** - Modul untuk menghitung luas lingkaran
 - **math-constant.js** - Konstanta matematika (PI)
 - **tes-bola.html** - Testing modul bola
 - **tes-lingkaran.html** - Testing modul lingkaran
 
-## 🚀 Cara Menjalankan
+## Cara Menjalankan
 
 ### Untuk Latihan Biasa
 ```bash
@@ -47,7 +47,7 @@ npx serve .
 # Kemudian buka: http://localhost:8000/module /tes-bola.html
 ```
 
-## 📝 Konsep Penting
+## Konsep Penting
 
 ### Arrow Functions
 ```javascript
@@ -98,16 +98,16 @@ import volume from './bola.js';
 import {PI} from './math-constant.js';
 ```
 
-## 🎯 Fitur Aplikasi Latihan
+## Fitur Aplikasi Latihan
 
 Aplikasi manajemen barang memiliki fitur:
-- ✅ Tambah barang baru
-- ✅ Lihat daftar barang
-- ✅ Edit barang existing
-- ✅ Hapus barang
-- ✅ Validasi input
+- Tambah barang baru
+- Lihat daftar barang
+- Edit barang existing
+- Hapus barang
+- Validasi input
 
-## 📚 Prasyarat
+## Prasyarat
 
 - Memahami konsep dasar JavaScript (pertemuan_3)
 - Pengetahuan dasar HTML dan DOM

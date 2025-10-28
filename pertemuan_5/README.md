@@ -2,7 +2,7 @@
 
 Latihan penggunaan berbagai jenis event dalam JavaScript, termasuk event click, mouse, keyboard, change, form, dan custom events.
 
-## 📁 Daftar File
+## Daftar File
 
 ### Program Utama
 - **program_penjualan_motor.html** - Program penjualan motor lengkap dengan semua jenis event handling
@@ -56,7 +56,7 @@ Latihan penggunaan berbagai jenis event dalam JavaScript, termasuk event click, 
    - Shopping cart system menggunakan custom events
    - Event communication antar komponen
 
-## 🎯 Konsep yang Dipelajari
+## Konsep yang Dipelajari
 
 ### 1. Event Click
 - `click` - Saat elemen diklik
@@ -100,7 +100,7 @@ Latihan penggunaan berbagai jenis event dalam JavaScript, termasuk event click, 
 - `element.dispatchEvent(event)` - Trigger event
 - `bubbles: true` - Mengaktifkan event bubbling
 
-## 💡 Fitur Program Penjualan Motor
+## Fitur Program Penjualan Motor
 
 Program penjualan motor mencakup:
 
@@ -135,14 +135,14 @@ Program penjualan motor mencakup:
    - `purchaseComplete` - Dipanggil saat pembelian selesai
    - Event log untuk monitoring
 
-## 🚀 Cara Menggunakan
+## Cara Menggunakan
 
 1. Buka salah satu file HTML di browser
 2. Interaksi dengan elemen di halaman
 3. Perhatikan Event Log untuk melihat event yang terjadi
 4. Pelajari source code untuk memahami implementasi
 
-## 📝 Logika Bisnis Program Motor
+## Logika Bisnis Program Motor
 
 - **Harga Motor:**
   - Honda: Rp 15.000.000
@@ -163,7 +163,7 @@ Program penjualan motor mencakup:
   2. Jika Tunai: Final = Total - (Total × 10%)
   3. Jika Kredit: Final = Total + (Total × 15%)
 
-## 🎓 Tips Pembelajaran
+## Tips Pembelajaran
 
 1. Mulai dari file event individu (1-6) untuk memahami setiap konsep
 2. Pelajari event log untuk melihat urutan dan flow event
@@ -172,7 +172,7 @@ Program penjualan motor mencakup:
 5. Perhatikan perbedaan antara event yang bubble dan tidak
 6. Pahami kapan menggunakan `change` vs `input` event
 
-## 🔍 Browser DevTools
+## Browser DevTools
 
 Gunakan Console untuk:
 ```javascript
@@ -186,7 +186,7 @@ monitorEvents(document.getElementById('elementId'))
 unmonitorEvents(document.getElementById('elementId'))
 ```
 
-## 📚 Referensi
+## Referensi
 
 - [MDN - Introduction to Events](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events)
 - [MDN - Event Reference](https://developer.mozilla.org/en-US/docs/Web/Events)

@@ -2,7 +2,7 @@
 
 Folder ini berisi materi pembelajaran JavaScript dasar meliputi array, percabangan, dan perulangan. Setiap konsep dilengkapi dengan contoh praktis dan latihan interaktif.
 
-## 📋 Materi yang Dipelajari
+## Materi yang Dipelajari
 
 ### 1. Array Operations
 - **array1.html** & **array1.js** - Konsep dasar array dan cara mengakses elemen
@@ -27,13 +27,13 @@ Folder ini berisi materi pembelajaran JavaScript dasar meliputi array, percabang
 - **perulangan_repeat.html** - Perulangan dengan repeat method
 - **perulangan_bersarang.html** - Perulangan bersarang (nested loops)
 
-## 🚀 Cara Menjalankan
+## Cara Menjalankan
 
 1. Buka file HTML di browser
 2. Lihat hasil di console atau halaman web
 3. Interaksi dengan prompt() untuk input user
 
-## 📝 Konsep Penting
+## Konsep Penting
 
 ### Array Operations
 ```javascript

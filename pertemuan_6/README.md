@@ -2,7 +2,7 @@
 
 Folder ini berisi materi pembelajaran AJAX (Asynchronous JavaScript and XML) dan manipulasi DOM untuk membuat aplikasi web interaktif.
 
-## 📋 Materi yang Dipelajari
+## Materi yang Dipelajari
 
 ### 1. AJAX dengan XMLHttpRequest
 - **index.html** & **script.js** - Implementasi AJAX untuk mengambil data JSON
@@ -19,7 +19,7 @@ Folder ini berisi materi pembelajaran AJAX (Asynchronous JavaScript and XML) dan
 - **tugas/shipping-calculator.js** - Logika perhitungan biaya kirim
 - **tugas/kota.xml** - Data kota dalam format XML
 
-## 🚀 Cara Menjalankan
+## Cara Menjalankan
 
 ### Untuk AJAX (Membutuhkan HTTP Server)
 ```bash
@@ -39,7 +39,7 @@ npx serve .
 open select.html
 ```
 
-## 📝 Konsep Penting
+## Konsep Penting
 
 ### AJAX dengan XMLHttpRequest
 ```javascript
@@ -86,28 +86,28 @@ function updateNegara() {
 }
 ```
 
-## 🎯 Fitur Aplikasi
+## Fitur Aplikasi
 
 ### AJAX Data Loader
-- ✅ Mengambil data dari file JSON
-- ✅ Menampilkan data mahasiswa
-- ✅ Error handling untuk request gagal
-- ✅ Loading state management
+- Mengambil data dari file JSON
+- Menampilkan data mahasiswa
+- Error handling untuk request gagal
+- Loading state management
 
 ### Select Bertingkat
-- ✅ Pilih benua terlebih dahulu
-- ✅ Negara otomatis terupdate
-- ✅ Validasi pilihan
-- ✅ Display hasil pilihan
+- Pilih benua terlebih dahulu
+- Negara otomatis terupdate
+- Validasi pilihan
+- Display hasil pilihan
 
 ### Kalkulator Biaya Kirim
-- ✅ Input nomor resi dan berat
-- ✅ Pilih kota asal dan tujuan
-- ✅ Perhitungan biaya berdasarkan berat dan jarak
-- ✅ Tabel harga terintegrasi
-- ✅ Validasi form
+- Input nomor resi dan berat
+- Pilih kota asal dan tujuan
+- Perhitungan biaya berdasarkan berat dan jarak
+- Tabel harga terintegrasi
+- Validasi form
 
-## 💡 Logika Bisnis Kalkulator Kirim
+## Logika Bisnis Kalkulator Kirim
 
 ### Biaya Berat
 - 0 - 1 Kg: Rp 1.500
@@ -128,7 +128,7 @@ function updateNegara() {
 Total Biaya = (Biaya Berat × Berat) + (Biaya Jarak × Berat)
 ```
 
-## 🔧 Teknologi yang Digunakan
+## Teknologi yang Digunakan
 
 - **HTML5** - Struktur halaman
 - **CSS3** - Styling dan layout
@@ -137,14 +137,14 @@ Total Biaya = (Biaya Berat × Berat) + (Biaya Jarak × Berat)
 - **JSON** - Data format
 - **XML** - Data format alternatif
 
-## 📚 Prasyarat
+## Prasyarat
 
 - Memahami konsep dasar JavaScript (pertemuan_3)
 - Pengetahuan DOM manipulation (pertemuan_5)
 - Browser modern yang mendukung ES6
 - HTTP server untuk testing AJAX
 
-## 🎓 Tips Pembelajaran
+## Tips Pembelajaran
 
 1. Mulai dengan select bertingkat untuk memahami DOM manipulation
 2. Pelajari AJAX dengan data sederhana terlebih dahulu
@@ -153,7 +153,7 @@ Total Biaya = (Biaya Berat × Berat) + (Biaya Jarak × Berat)
 5. Pahami perbedaan antara JSON dan XML
 6. Eksperimen dengan berbagai HTTP methods
 
-## 🔍 Browser DevTools
+## Browser DevTools
 
 Gunakan Network tab untuk:
 - Monitor AJAX requests
@@ -170,7 +170,7 @@ console.log(xhr.responseText);
 console.log(element.innerHTML);
 ```
 
-## 📚 Referensi
+## Referensi
 
 - [MDN - Using XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest)
 - [MDN - DOM Manipulation](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model)
