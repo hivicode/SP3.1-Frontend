@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<div class="container">
+<h1>APLIKASI PENJUALAN COMPUTER</h1>
+
+<div class="form-section">
+<h3>Data Barang</h3>
+
+<label>Kategori:</label>
+<div class="input-group">
+<input type="text" id="kategori" readonly>
+<button id="btnKategori" class="btn-select">Select</button>
+</div>
+
+<label>Nama Barang:</label>
+<div class="input-group">
+<input type="text" id="namaBarang" readonly>
+<button id="btnNamaBarang" class="btn-select">Select</button>
+</div>
+
+<label>Harga Satuan:</label>
+<div class="input-group">
+<span class="rp">Rp.</span>
+<input type="text" id="hargaSatuan" readonly>
+</div>
+
+<label>Jumlah:</label>
+<input type="number" id="jumlah" value="1" min="1">
+</div>
+
+<div class="form-section">
+<h3>Jenis Penjualan</h3>
+
+<label>Jenis Penjualan:</label>
+<div class="input-group">
+<input type="text" id="jenisPenjualan" readonly>
+<button id="btnJenisPenjualan" class="btn-select">Select</button>
+</div>
+
+<h3>Keterangan</h3>
+
+<label>Total Penjualan:</label>
+<div class="input-group">
+<span class="rp">Rp.</span>
+<input type="text" id="totalPenjualan" class="field-total" readonly>
+</div>
+
+<label>Diskon:</label>
+<div class="input-group">
+<span class="rp">Rp.</span>
+<input type="text" id="diskon" class="field-total" readonly>
+</div>
+
+<label>Pajak:</label>
+<div class="input-group">
+<span class="rp">Rp.</span>
+<input type="text" id="pajak" class="field-total" readonly>
+</div>
+
+<label>Harga Total:</label>
+<div class="input-group-wide">
+<span class="rp">Rp.</span>
+<input type="text" id="hargaTotal" class="field-final" readonly>
+</div>
+
+<button id="btnHitung" class="btn-calculate">Hitung</button>
+<button id="btnReset" class="btn-reset">Reset</button>
+</div>
+
+<div class="ketentuan">
+<h3>Ketentuan:</h3>
+<ul>
+<li>Diskon diberikan sebesar 10% dari total penjualan jika penjualan dilakukan secara tunai</li>
+<li>Pajak dibebankan dengan ketentuan:<br> - 15% dari harga satuan untuk Barang Utama<br> - 10% dari harga satuan untuk Barang Aksesoris</li>
+</ul>
+</div>
+</div>
+
+<div id="modalKategori" class="modal">
+<div class="modal-content small">
+<span class="tutup">&times;</span>
+<h2>KATEGORI</h2>
+<div class="option-list">
+<div class="option" data-value="PC / LAPTOP">1 PC / LAPTOP</div>
+<div class="option" data-value="AKSESORIS">2 AKSESORIS</div>
+</div>
+<button class="btn-simpan">Simpan</button>
+<button class="btn-batal">Batal</button>
+</div>
+</div>
+
+<div id="modalPC" class="modal">
+<div class="modal-content">
+<span class="tutup">&times;</span>
+<h2>PC / LAPTOP</h2>
+<div class="radio-group">
+<label><input type="radio" name="pc" value="PC IBM Core i7" data-harga="5600000"> PC IBM Core i7 - Rp. 5.600.000</label>
+<label><input type="radio" name="pc" value="Laptop Asus Core i5" data-harga="4500000"> Laptop Asus Core i5 - Rp. 4.500.000</label>
+<label><input type="radio" name="pc" value="Laptop Lenovo AMD Ryzen 5" data-harga="9500000"> Laptop Lenovo AMD Ryzen 5 - Rp. 9.500.000</label>
+</div>
+<button class="btn-simpan">Simpan</button>
+<button class="btn-batal">Batal</button>
+</div>
+</div>
+
+<div id="modalAksesoris" class="modal">
+<div class="modal-content">
+<span class="tutup">&times;</span>
+<h2>AKSESORIS</h2>
+<div class="checkbox-group">
+<label><input type="checkbox" name="aksesoris" value="Flasdisk 32gb" data-harga="50000"> Flasdisk 32gb - Rp. 50.000</label>
+<label><input type="checkbox" name="aksesoris" value="Hardisk 256 gb" data-harga="1250000"> Hardisk 256 gb - Rp. 1.250.000</label>
+<label><input type="checkbox" name="aksesoris" value="Speaker Aktif" data-harga="255000"> Speaker Aktif - Rp. 255.000</label>
+</div>
+<button class="btn-simpan">Simpan</button>
+<button class="btn-batal">Batal</button>
+</div>
+</div>
+
+<div id="modalJenisPenjualan" class="modal">
+<div class="modal-content">
+<span class="tutup">&times;</span>
+<h2>JENIS PENJUALAN</h2>
+<div class="checkbox-group">
+<label><input type="checkbox" name="jenis" value="Tunai"> Tunai</label>
+<label><input type="checkbox" name="jenis" value="Kredit"> Kredit</label>
+</div>
+<button class="btn-simpan">Simpan</button>
+<button class="btn-batal">Batal</button>
+</div>
+</div>
+
+<script type="text/javascript" src="script.js"></script>
+</body>
+</html>
