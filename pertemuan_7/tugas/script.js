@@ -144,17 +144,20 @@ btnBatalAksesoris.onclick = function() {
 };
 
 btnJenisPenjualan.onclick = function() {
+    if (jenisPenjualan === "") {
+        var radiosToClear = modalJenisPenjualan.querySelectorAll('input[type="radio"]');
+        for (var i = 0; i < radiosToClear.length; i++) {
+            radiosToClear[i].checked = false;
+        }
+    }
     openModal(modalJenisPenjualan);
 };
 
-var jenisCheckboxes = modalJenisPenjualan.querySelectorAll('input[type="checkbox"]');
-for (var i = 0; i < jenisCheckboxes.length; i++) {
-    jenisCheckboxes[i].onchange = function() {
-        var checked = modalJenisPenjualan.querySelectorAll('input[type="checkbox"]:checked');
-        if (checked.length > 0) {
-            jenisPenjualan = checked[0].value;
-            inputJenisPenjualan.value = jenisPenjualan;
-        }
+var jenisRadios = modalJenisPenjualan.querySelectorAll('input[type="radio"]');
+for (var i = 0; i < jenisRadios.length; i++) {
+    jenisRadios[i].onchange = function() {
+        jenisPenjualan = this.value;
+        inputJenisPenjualan.value = jenisPenjualan;
     };
 }
 
@@ -233,9 +236,9 @@ btnReset.onclick = function() {
             allCheckboxes[i].checked = false;
         }
         
-        allCheckboxes = modalJenisPenjualan.querySelectorAll('input[type="checkbox"]');
-        for (var i = 0; i < allCheckboxes.length; i++) {
-            allCheckboxes[i].checked = false;
+        var jenisRadiosReset = modalJenisPenjualan.querySelectorAll('input[type="radio"]');
+        for (var i = 0; i < jenisRadiosReset.length; i++) {
+            jenisRadiosReset[i].checked = false;
         }
     }
 };
