@@ -25,6 +25,14 @@
         </div>
         <label>Jumlah:</label>
         <input type="number" id="jumlah" value="1" min="1">
+        <div style="margin-top:10px;">
+          <button id="btnAddToCart" class="btn-save">Tambah ke Keranjang</button>
+        </div>
+      </div>
+      <div class="form-section" id="cartSection" style="display:none;">
+        <h3>Keranjang</h3>
+        <div id="cartList" class="history-list"></div>
+        <button id="btnClearCart" class="btn-clear">Bersihkan Keranjang</button>
       </div>
       <div class="form-section">
         <label>Jenis Penjualan:</label>
@@ -74,7 +82,7 @@
         <h3>Ketentuan:</h3>
         <ul>
           <li>Diskon diberikan sebesar 10% dari total penjualan jika penjualan dilakukan secara tunai</li>
-          <li>Pajak dibebankan dengan ketentuan: <br> - 15% dari harga satuan untuk Barang Utama <br> - 10% dari harga satuan untuk Barang Aksesoris </li>
+          <li>Pajak dibebankan dengan ketentuan: <br> - 15% dari harga satuan untuk Barang Utama <br> - 10% dari harga satuan untuk Barang Aksesoris <br> - 12% dari harga satuan untuk Printer</li>
         </ul>
       </div>
     </div>
@@ -85,6 +93,7 @@
         <div class="option-list">
           <div class="option" data-value="PC / LAPTOP">PC / LAPTOP</div>
           <div class="option" data-value="AKSESORIS">AKSESORIS</div>
+          <div class="option" data-value="PRINTER">PRINTER</div>
         </div>
         <button class="btn-simpan">Simpan</button>
         <button class="btn-batal">Batal</button>
@@ -94,6 +103,15 @@
       <div class="modal-content">
         <span class="tutup">&times;</span>
         <h2>PC / LAPTOP</h2>
+        <div class="radio-group"></div>
+        <button class="btn-simpan">Simpan</button>
+        <button class="btn-batal">Batal</button>
+      </div>
+    </div>
+    <div id="modalPrinter" class="modal">
+      <div class="modal-content">
+        <span class="tutup">&times;</span>
+        <h2>PRINTER</h2>
         <div class="radio-group"></div>
         <button class="btn-simpan">Simpan</button>
         <button class="btn-batal">Batal</button>

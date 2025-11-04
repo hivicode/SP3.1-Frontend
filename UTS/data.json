@@ -30,6 +30,20 @@
       "nama": "Speaker Aktif",
       "harga": 255000
     }
+  ],
+  "printer": [
+    {
+      "nama": "Printer Canon iP2770",
+      "harga": 850000
+    },
+    {
+      "nama": "Printer Epson L3110",
+      "harga": 2300000
+    },
+    {
+      "nama": "Printer HP LaserJet 107a",
+      "harga": 1500000
+    }
   ]
 }
 

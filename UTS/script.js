@@ -8,7 +8,7 @@ var hargaSatuan = 0;
 var jumlah = 1;
 var jenisPenjualan = "";
 var isMainItem = false;
-var barangData = {pc: [], aksesoris: []};
+var barangData = {pc: [], aksesoris: [], printer: []};
 var hargaTotal = 0;
 
 /* ==========================================================================
@@ -18,6 +18,7 @@ var hargaTotal = 0;
 var modalKategori = document.getElementById("modalKategori");
 var modalPC = document.getElementById("modalPC");
 var modalAksesoris = document.getElementById("modalAksesoris");
+var modalPrinter = document.getElementById("modalPrinter");
 var modalJenisPenjualan = document.getElementById("modalJenisPenjualan");
 var modalHistory = document.getElementById("modalHistory");
 
@@ -33,6 +34,8 @@ var btnSimpan = document.getElementById("btnSimpan");
 var btnReset = document.getElementById("btnReset");
 var btnHistory = document.getElementById("btnHistory");
 var btnClearHistory = document.getElementById("btnClearHistory");
+var btnAddToCart = document.getElementById("btnAddToCart");
+var btnClearCart = document.getElementById("btnClearCart");
 
 /* ==========================================================================
    FORM INPUTS
@@ -56,12 +59,14 @@ var inputKembalian = document.getElementById("kembalian");
    ========================================================================== */
 var pembayaranSection = document.getElementById("pembayaranSection");
 var historyList = document.getElementById("historyList");
+var cartSection = document.getElementById("cartSection");
+var cartList = document.getElementById("cartList");
 
 /* ==========================================================================
    MODAL UTILS
    - Helper untuk buka/tutup modal dan daftar semua modal
    ========================================================================== */
-var allModals = [modalKategori, modalPC, modalAksesoris, modalJenisPenjualan, modalHistory];
+var allModals = [modalKategori, modalPC, modalAksesoris, modalPrinter, modalJenisPenjualan, modalHistory];
 
 function openModal(modal) {
     modal.style.display = "block";
@@ -109,6 +114,7 @@ function loadBarangData() {
 function renderBarangData() {
     var pcRadioGroup = modalPC.querySelector(".radio-group");
     var aksesorisCheckboxGroup = modalAksesoris.querySelector(".checkbox-group");
+    var printerRadioGroup = modalPrinter.querySelector(".radio-group");
     
     pcRadioGroup.innerHTML = "";
     barangData.pc.forEach(function(item) {
@@ -134,6 +140,19 @@ function renderBarangData() {
         label.appendChild(checkbox);
         label.appendChild(document.createTextNode(" " + item.nama + " - Rp. " + formatCurrency(item.harga)));
         aksesorisCheckboxGroup.appendChild(label);
+    });
+    
+    printerRadioGroup.innerHTML = "";
+    barangData.printer.forEach(function(item) {
+        var label = document.createElement("label");
+        var radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "printer";
+        radio.value = item.nama;
+        radio.setAttribute("data-harga", item.harga);
+        label.appendChild(radio);
+        label.appendChild(document.createTextNode(" " + item.nama + " - Rp. " + formatCurrency(item.harga)));
+        printerRadioGroup.appendChild(label);
     });
     
     setupEventListeners();
@@ -176,12 +195,134 @@ function setupEventListeners() {
             isMainItem = false;
         };
     }
+
+    var printerRadios = modalPrinter.querySelectorAll('input[type="radio"]');
+    for (var k = 0; k < printerRadios.length; k++) {
+        printerRadios[k].onchange = function() {
+            namaBarang = this.value;
+            hargaSatuan = parseInt(this.getAttribute("data-harga"));
+            inputNamaBarang.value = namaBarang;
+            inputHargaSatuan.value = formatCurrency(hargaSatuan);
+            isMainItem = false; // treat separately by kategori in pajak
+        };
+    }
 }
 
 var selectedAksesoris = [];
 var selectedHarga = 0;
+var lastCategoryApplied = "";
+var cartItems = [];
 
 loadBarangData();
+
+/* ==========================================================================
+   CART HELPERS
+   - Tambah/hapus/render keranjang
+   ========================================================================== */
+function getTaxRateForCategory(cat) {
+    if (cat === "PC / LAPTOP") return 0.15;
+    if (cat === "PRINTER") return 0.12;
+    return 0.10; // AKSESORIS
+}
+
+function renderCart() {
+    if (!cartSection || !cartList) return;
+    if (cartItems.length === 0) {
+        cartSection.style.display = "none";
+        cartList.innerHTML = '';
+        return;
+    }
+    cartSection.style.display = "block";
+    cartList.innerHTML = '';
+    cartItems.forEach(function(ci) {
+        var item = document.createElement("div");
+        item.className = "history-item";
+        var subtotal = ci.hargaSatuan * ci.jumlah;
+        var pajakItem = subtotal * ci.pajakRate;
+        var html = '<div class="history-item-header">';
+        html += '<div class="history-item-title">' + ci.namaBarang + '</div>';
+        html += '<div class="history-item-date">' + ci.kategori + '</div>';
+        html += '</div>';
+        html += '<div class="history-item-detail"><strong>Harga:</strong> Rp. ' + formatCurrency(ci.hargaSatuan) + '</div>';
+        html += '<div class="history-item-detail"><strong>Jumlah:</strong> ' + ci.jumlah + '</div>';
+        html += '<div class="history-item-detail"><strong>Subtotal:</strong> Rp. ' + formatCurrency(subtotal) + '</div>';
+        html += '<div class="history-item-detail"><strong>Pajak Item:</strong> Rp. ' + formatCurrency(pajakItem) + ' (' + Math.round(ci.pajakRate*100) + '%)</div>';
+        html += '<div style="margin-top:8px;"><button class="btn-clear" data-id="' + ci.id + '">Hapus</button></div>';
+        item.innerHTML = html;
+        cartList.appendChild(item);
+    });
+    // bind remove
+    var removeButtons = cartList.querySelectorAll('button.btn-clear[data-id]');
+    for (var i = 0; i < removeButtons.length; i++) {
+        removeButtons[i].onclick = function() {
+            var id = this.getAttribute('data-id');
+            cartItems = cartItems.filter(function(x){ return String(x.id) !== String(id); });
+            renderCart();
+            // after remove, reset totals view
+            calculate();
+        };
+    }
+}
+
+function addCurrentSelectionToCart() {
+    if (kategori === "") {
+        alert("Pilih kategori terlebih dahulu!");
+        return;
+    }
+    if (namaBarang === "" || hargaSatuan === 0) {
+        alert("Pilih nama barang terlebih dahulu!");
+        return;
+    }
+    var qty = parseInt(inputJumlah.value) || 1;
+    if (qty < 1) qty = 1;
+    var item = {
+        id: Date.now() + Math.random(),
+        kategori: kategori,
+        namaBarang: namaBarang,
+        hargaSatuan: hargaSatuan,
+        jumlah: qty,
+        pajakRate: getTaxRateForCategory(kategori)
+    };
+    cartItems.push(item);
+    renderCart();
+    // clear current single selection fields to encourage next selection
+    namaBarang = "";
+    hargaSatuan = 0;
+    inputNamaBarang.value = "";
+    inputHargaSatuan.value = "";
+    inputJumlah.value = "1";
+    // uncheck choices
+    var radiosPC = modalPC.querySelectorAll('input[type="radio"]');
+    for (var r1 = 0; r1 < radiosPC.length; r1++) radiosPC[r1].checked = false;
+    var radiosPrinter = modalPrinter.querySelectorAll('input[type="radio"]');
+    for (var r2 = 0; r2 < radiosPrinter.length; r2++) radiosPrinter[r2].checked = false;
+    var cbsAks = modalAksesoris.querySelectorAll('input[type="checkbox"]');
+    for (var c1 = 0; c1 < cbsAks.length; c1++) cbsAks[c1].checked = false;
+    selectedAksesoris = [];
+    selectedHarga = 0;
+}
+
+if (btnAddToCart) {
+    btnAddToCart.onclick = function() {
+        addCurrentSelectionToCart();
+    };
+}
+
+if (btnClearCart) {
+    btnClearCart.onclick = function() {
+        if (confirm("Kosongkan keranjang?")) {
+            cartItems = [];
+            renderCart();
+            // clear totals
+            inputTotalPenjualan.value = "";
+            inputDiskon.value = "";
+            inputPajak.value = "";
+            inputHargaTotal.value = "";
+            hargaTotal = 0;
+            btnSimpan.style.display = "none";
+        }
+    };
+}
 
 /* ==========================================================================
    OPEN MODALS
@@ -222,6 +363,8 @@ for (var i = 0; i < kategoriOptions.length; i++) {
         // Uncheck all selections in item and jenis modals
         var allPCRadios = modalPC.querySelectorAll('input[type="radio"]');
         for (var r = 0; r < allPCRadios.length; r++) allPCRadios[r].checked = false;
+        var allPrinterRadios = modalPrinter.querySelectorAll('input[type="radio"]');
+        for (var pr = 0; pr < allPrinterRadios.length; pr++) allPrinterRadios[pr].checked = false;
         var allAksesoris = modalAksesoris.querySelectorAll('input[type="checkbox"]');
         for (var c = 0; c < allAksesoris.length; c++) allAksesoris[c].checked = false;
         var allJenisRadios = modalJenisPenjualan.querySelectorAll('input[type="radio"]');
@@ -235,10 +378,14 @@ for (var i = 0; i < kategoriOptions.length; i++) {
 }
 
 btnNamaBarang.onclick = function() {
+    // Untuk mode keranjang: jangan reset pilihan sebelumnya saat ganti kategori
+    lastCategoryApplied = kategori;
     if (kategori === "PC / LAPTOP") {
         openModal(modalPC);
     } else if (kategori === "AKSESORIS") {
         openModal(modalAksesoris);
+    } else if (kategori === "PRINTER") {
+        openModal(modalPrinter);
     } else {
         alert("Pilih kategori terlebih dahulu!");
     }
@@ -274,6 +421,20 @@ btnSaveAksesoris.onclick = function() {
 var btnBatalAksesoris = modalAksesoris.getElementsByClassName("btn-batal")[0];
 btnBatalAksesoris.onclick = function() {
     closeModal(modalAksesoris);
+};
+
+var btnSavePrinter = modalPrinter.getElementsByClassName("btn-simpan")[0];
+btnSavePrinter.onclick = function() {
+    if (namaBarang === "") {
+        alert("Pilih salah satu printer!");
+        return;
+    }
+    closeModal(modalPrinter);
+};
+
+var btnBatalPrinter = modalPrinter.getElementsByClassName("btn-batal")[0];
+btnBatalPrinter.onclick = function() {
+    closeModal(modalPrinter);
 };
 
 /* ==========================================================================
@@ -398,32 +559,37 @@ function formatCurrency(value) {
    - Hitung total penjualan, diskon, pajak, dan total akhir
    ========================================================================== */
 function calculate() {
-    if (kategori === "" || namaBarang === "" || jenisPenjualan === "") {
+    if (jenisPenjualan === "") {
         return false;
     }
-    
-    jumlah = parseInt(inputJumlah.value) || 1;
-    if (jumlah < 1) {
-        jumlah = 1;
-        inputJumlah.value = "1";
+    var totalPenjualan = 0;
+    var totalPajak = 0;
+    if (cartItems.length > 0) {
+        for (var i = 0; i < cartItems.length; i++) {
+            var ci = cartItems[i];
+            var subtotal = ci.hargaSatuan * ci.jumlah;
+            totalPenjualan += subtotal;
+            totalPajak += subtotal * ci.pajakRate;
+        }
+    } else {
+        if (kategori === "" || namaBarang === "") return false;
+        var qty = parseInt(inputJumlah.value) || 1;
+        if (qty < 1) {
+            qty = 1;
+            inputJumlah.value = "1";
+        }
+        totalPenjualan = hargaSatuan * qty;
+        totalPajak = totalPenjualan * getTaxRateForCategory(kategori);
     }
-    
-    var totalPenjualan = hargaSatuan * jumlah;
     inputTotalPenjualan.value = formatCurrency(totalPenjualan);
-    
     var diskon = 0;
     if (jenisPenjualan === "Tunai") {
         diskon = totalPenjualan * 0.10;
     }
     inputDiskon.value = formatCurrency(diskon);
-    
-    var pajakRate = isMainItem ? 0.15 : 0.10;
-    var pajak = hargaSatuan * pajakRate * jumlah;
-    inputPajak.value = formatCurrency(pajak);
-    
-    hargaTotal = totalPenjualan - diskon + pajak;
+    inputPajak.value = formatCurrency(totalPajak);
+    hargaTotal = totalPenjualan - diskon + totalPajak;
     inputHargaTotal.value = formatCurrency(hargaTotal);
-    
     if (jenisPenjualan === "Tunai" && inputBayar.value) {
         var bayarValue = parseNumber(inputBayar.value);
         if (bayarValue >= hargaTotal) {
@@ -431,10 +597,8 @@ function calculate() {
             inputKembalian.value = formatCurrency(kembalian);
         }
     }
-    
     validateInput();
     btnSimpan.style.display = hargaTotal > 0 ? "inline-block" : "none";
-    
     return true;
 }
 
@@ -443,8 +607,12 @@ function calculate() {
    - Hitung manual, Simpan transaksi, Tampilkan history, Reset
    ========================================================================== */
 btnHitung.onclick = function() {
-    if (kategori === "" || namaBarang === "" || jenisPenjualan === "") {
-        alert("Lengkapi semua data terlebih dahulu!");
+    if (jenisPenjualan === "") {
+        alert("Pilih jenis penjualan terlebih dahulu!");
+        return;
+    }
+    if (cartItems.length === 0 && (kategori === "" || namaBarang === "")) {
+        alert("Tambahkan barang ke keranjang atau pilih barang terlebih dahulu!");
         return;
     }
     if (!validateInput()) {
@@ -455,18 +623,37 @@ btnHitung.onclick = function() {
 };
 
 function saveTransaction() {
-    if (kategori === "" || namaBarang === "" || jenisPenjualan === "" || hargaTotal === 0) {
+    if (jenisPenjualan === "" || hargaTotal === 0) {
         alert("Data transaksi belum lengkap!");
         return;
     }
-    
+    var itemsToSave = [];
+    if (cartItems.length > 0) {
+        itemsToSave = cartItems.map(function(ci){
+            return {
+                kategori: ci.kategori,
+                namaBarang: ci.namaBarang,
+                hargaSatuan: ci.hargaSatuan,
+                jumlah: ci.jumlah,
+                pajakRate: ci.pajakRate
+            };
+        });
+    } else if (kategori !== "" && namaBarang !== "") {
+        itemsToSave = [{
+            kategori: kategori,
+            namaBarang: namaBarang,
+            hargaSatuan: hargaSatuan,
+            jumlah: parseInt(inputJumlah.value) || 1,
+            pajakRate: getTaxRateForCategory(kategori)
+        }];
+    } else {
+        alert("Tambahkan barang terlebih dahulu!");
+        return;
+    }
     var transaction = {
         id: Date.now(),
         tanggal: new Date().toLocaleString("id-ID"),
-        kategori: kategori,
-        namaBarang: namaBarang,
-        hargaSatuan: hargaSatuan,
-        jumlah: jumlah,
+        items: itemsToSave,
         jenisPenjualan: jenisPenjualan,
         totalPenjualan: parseNumber(inputTotalPenjualan.value),
         diskon: parseNumber(inputDiskon.value),
@@ -517,10 +704,17 @@ function renderHistory() {
         html += '<div class="history-item-title">Transaksi #' + transaction.id + '</div>';
         html += '<div class="history-item-date">' + transaction.tanggal + '</div>';
         html += '</div>';
-        html += '<div class="history-item-detail"><strong>Kategori:</strong> ' + transaction.kategori + '</div>';
-        html += '<div class="history-item-detail"><strong>Barang:</strong> ' + transaction.namaBarang + '</div>';
-        html += '<div class="history-item-detail"><strong>Harga Satuan:</strong> Rp. ' + formatCurrency(transaction.hargaSatuan) + '</div>';
-        html += '<div class="history-item-detail"><strong>Jumlah:</strong> ' + transaction.jumlah + '</div>';
+        if (transaction.items && transaction.items.length) {
+            html += '<div class="history-item-detail"><strong>Items (' + transaction.items.length + '):</strong></div>';
+            transaction.items.forEach(function(it, idx){
+                html += '<div class="history-item-detail">' + (idx+1) + '. [' + it.kategori + '] ' + it.namaBarang + ' x' + it.jumlah + ' @ Rp. ' + formatCurrency(it.hargaSatuan) + '</div>';
+            });
+        } else {
+            html += '<div class="history-item-detail"><strong>Kategori:</strong> ' + transaction.kategori + '</div>';
+            html += '<div class="history-item-detail"><strong>Barang:</strong> ' + transaction.namaBarang + '</div>';
+            html += '<div class="history-item-detail"><strong>Harga Satuan:</strong> Rp. ' + formatCurrency(transaction.hargaSatuan) + '</div>';
+            html += '<div class="history-item-detail"><strong>Jumlah:</strong> ' + transaction.jumlah + '</div>';
+        }
         html += '<div class="history-item-detail"><strong>Jenis Penjualan:</strong> ' + transaction.jenisPenjualan + '</div>';
         html += '<div class="history-item-detail"><strong>Total Penjualan:</strong> Rp. ' + formatCurrency(transaction.totalPenjualan) + '</div>';
         html += '<div class="history-item-detail"><strong>Diskon:</strong> Rp. ' + formatCurrency(transaction.diskon) + '</div>';
@@ -565,6 +759,7 @@ btnReset.onclick = function() {
         hargaTotal = 0;
         selectedAksesoris = [];
         selectedHarga = 0;
+        cartItems = [];
         
         inputKategori.value = "";
         inputNamaBarang.value = "";
@@ -580,10 +775,16 @@ btnReset.onclick = function() {
         
         pembayaranSection.style.display = "none";
         btnSimpan.style.display = "none";
+        if (cartSection) cartSection.style.display = "none";
+        if (cartList) cartList.innerHTML = "";
         
         var allRadios = modalPC.querySelectorAll('input[type="radio"]');
         for (var i = 0; i < allRadios.length; i++) {
             allRadios[i].checked = false;
+        }
+        var allPrinterReset = modalPrinter.querySelectorAll('input[type="radio"]');
+        for (var p = 0; p < allPrinterReset.length; p++) {
+            allPrinterReset[p].checked = false;
         }
         
         var allCheckboxes = modalAksesoris.querySelectorAll('input[type="checkbox"]');

@@ -49,7 +49,9 @@ Aplikasi penjualan komputer untuk Ujian Tengah Semester dengan fitur lengkap:
 - **Calculation**: Perhitungan diskon, pajak, dan total harga
 - **Payment Calculator**: Kalkulator bayar dan kembalian untuk transaksi tunai
 - **Transaction History**: Simpan dan tampilkan history transaksi menggunakan localStorage
-- **Reset Logic**: Reset otomatis saat kategori berubah
+- **Kategori**: PC/Laptop, Aksesoris, dan Printer (pajak 12% untuk Printer)
+- **Keranjang Belanja**: Tambah banyak item lintas kategori, hapus/bersihkan, total akumulatif
+- **Perhitungan Pajak per Kategori**: PC/Laptop 15%, Aksesoris 10%, Printer 12%
 
 ## Cara Menjalankan
 

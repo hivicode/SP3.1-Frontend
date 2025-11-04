@@ -1,15 +1,16 @@
 # UTS - Aplikasi Penjualan Computer
 
-Aplikasi penjualan komputer lengkap untuk Ujian Tengah Semester dengan fitur input data melalui modal pop-up, validasi form, perhitungan diskon/pajak, kalkulator pembayaran, dan history transaksi.
+Aplikasi penjualan komputer lengkap untuk Ujian Tengah Semester dengan fitur input data melalui modal pop-up, validasi form, perhitungan diskon/pajak, kalkulator pembayaran, keranjang belanja (multi-item), dan history transaksi.
 
 ## Deskripsi
 
 Aplikasi ini memungkinkan user untuk:
-- Memilih kategori barang (PC/Laptop atau Aksesoris) dari data JSON
+- Memilih kategori barang (PC/Laptop, Aksesoris, atau Printer) dari data JSON
 - Memilih item spesifik dengan harga yang dinamis
 - Mengatur jumlah barang dengan validasi
 - Memilih jenis penjualan (Tunai/Kredit)
-- Menghitung total harga termasuk diskon dan pajak
+- Menambahkan banyak barang ke Keranjang lalu menghitung total (multi-item)
+- Menghitung total harga termasuk diskon dan pajak per kategori
 - Menghitung kembalian untuk transaksi tunai
 - Menyimpan dan melihat history transaksi
 
@@ -21,16 +22,22 @@ Aplikasi ini memungkinkan user untuk:
 - Tidak ada hardcode data di HTML
 
 ### 2. Input Data Barang
-- **Kategori**: PC/Laptop atau Aksesoris (dipilih via modal)
+- **Kategori**: PC/Laptop, Aksesoris, atau Printer (dipilih via modal)
 - **Nama Barang**: Radio button untuk PC/Laptop, checkbox untuk Aksesoris (multiple selection)
 - **Harga Satuan**: Auto-update berdasarkan pilihan
 - **Jumlah**: Input number dengan validasi minimal 1
 - **Jenis Penjualan**: Tunai atau Kredit (via modal)
 
+### 2b. Keranjang Belanja (baru)
+- Tombol "Tambah ke Keranjang" untuk memasukkan barang yang dipilih beserta jumlah
+- Keranjang menampilkan daftar item lintas kategori, subtotal, dan pajak per item
+- Dapat menghapus item tertentu atau membersihkan seluruh keranjang
+
 ### 3. Modal Pop-up
 - **Modal Kategori**: Pilih kategori barang
 - **Modal PC/Laptop**: Radio buttons dengan data dari JSON
 - **Modal Aksesoris**: Checkboxes dengan data dari JSON (multiple selection)
+- **Modal Printer**: Radio buttons dengan data dari JSON
 - **Modal Jenis Penjualan**: Radio buttons untuk Tunai/Kredit
 - **Modal History**: Tampilkan daftar transaksi tersimpan
 - Semua modal dapat ditutup dengan klik di luar atau tombol X
@@ -42,12 +49,15 @@ Aplikasi ini memungkinkan user untuk:
 - **Real-time Validation**: Validasi saat user mengetik
 
 ### 5. Perhitungan
-- **Total Penjualan**: Harga satuan × Jumlah
+- Jika keranjang terisi: total dijumlah dari semua item di keranjang
+- Jika keranjang kosong: total dihitung dari item tunggal yang dipilih
+- **Total Penjualan**: Σ (harga satuan × jumlah) per item
 - **Diskon**: 10% dari total penjualan jika pembayaran Tunai
-- **Pajak**: 
-  - 15% dari harga satuan untuk Barang Utama (PC/Laptop)
-  - 10% dari harga satuan untuk Barang Aksesoris
-- **Harga Total**: Total Penjualan - Diskon + Pajak
+- **Pajak per Kategori**:
+  - 15% untuk PC/Laptop
+  - 10% untuk Aksesoris
+  - 12% untuk Printer
+- **Harga Total**: Total Penjualan - Diskon + Σ Pajak
 
 ### 6. Kalkulator Pembayaran (Tunai)
 - Field "Bayar" muncul otomatis untuk jenis penjualan Tunai
@@ -62,16 +72,15 @@ Aplikasi ini memungkinkan user untuk:
 - Hapus semua history dengan konfirmasi
 - Setiap transaksi menyimpan:
   - Tanggal & waktu
-  - Kategori, nama barang, harga satuan
-  - Jumlah, jenis penjualan
-  - Total penjualan, diskon, pajak
+  - Daftar items (kategori, nama, harga satuan, jumlah)
+  - Jenis penjualan
+  - Total penjualan, diskon, pajak total
   - Bayar & kembalian (jika tunai)
   - Harga total
 
 ### 8. Auto-Reset
-- Reset semua field terkait saat kategori berubah
-- Uncheck semua pilihan radio/checkbox
-- Sembunyikan field pembayaran dan tombol simpan
+- Reset semua field via tombol Reset
+- Keranjang dapat dibersihkan via tombol khusus di section Keranjang
 
 ## Ketentuan Diskon dan Pajak
 
@@ -80,15 +89,16 @@ Aplikasi ini memungkinkan user untuk:
 - **0%** jika pembayaran **Kredit**
 
 ### Pajak
-- **15%** dari harga satuan untuk **Barang Utama** (PC/Laptop)
-- **10%** dari harga satuan untuk **Barang Aksesoris**
+- **15%** untuk **PC/Laptop**
+- **10%** untuk **Aksesoris**
+- **12%** untuk **Printer**
 
 ## Struktur File
 
 - **index.html** - Struktur aplikasi dengan form, modal, dan history
 - **style.css** - Styling lengkap untuk form, modal, history, dan error states
 - **script.js** - Logika aplikasi dengan komentar section yang jelas
-- **data.json** - Data barang (PC dan Aksesoris) dalam format JSON
+- **data.json** - Data barang (PC, Aksesoris, dan Printer) dalam format JSON
 
 ## Cara Menggunakan
 
@@ -145,9 +155,8 @@ Data barang disimpan di `data.json` dan dimuat secara dinamis:
 - Form reset functionality
 - Field reset saat kategori berubah
 
-### 4. Business Logic
-- Conditional pricing (main items vs accessories)
-- Tax calculation based on item type
+- Conditional pricing per kategori
+- Tax calculation based on kategori (PC 15%, Aksesoris 10%, Printer 12%)
 - Discount calculation based on payment method
 - Currency formatting
 - Payment calculator
@@ -164,8 +173,7 @@ Data barang disimpan di `data.json` dan dimuat secara dinamis:
 - Clear history with confirmation
 - Limit storage (max 50 transactions)
 
-### 7. State Management
-- State reset saat kategori berubah
+- State keranjang & form
 - Auto-hide/show fields based on selection
 - Conditional UI rendering
 
@@ -204,10 +212,11 @@ Data barang disimpan di `data.json` dan dimuat secara dinamis:
 2. ✅ Validasi input real-time dengan error highlighting
 3. ✅ Kalkulator bayar/kembalian untuk transaksi tunai
 4. ✅ History transaksi dengan localStorage
-5. ✅ Auto-reset saat kategori berubah
-6. ✅ Modal management yang lengkap
-7. ✅ Currency formatting
-8. ✅ Komentar section yang jelas di kode
+5. ✅ Modal management yang lengkap
+6. ✅ Currency formatting
+7. ✅ Komentar section yang jelas di kode
+8. ✅ Kategori baru: Printer (pajak 12%)
+9. ✅ Keranjang belanja (multi-item) dengan pajak per kategori
 
 ### Fitur Opsional (Bisa Ditambahkan)
 - Perhitungan cicilan untuk Kredit
