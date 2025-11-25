@@ -41,6 +41,15 @@ Berisi materi pembelajaran modal pop-up dan aplikasi input data:
 - **Event Control**: Buka/tutup modal dengan berbagai cara
 - **Tugas**: Aplikasi penjualan komputer dengan modal dan perhitungan
 
+### pertemuan_9/
+Berisi materi pembelajaran CRUD dengan jQuery dan localStorage:
+- **jQuery**: DOM manipulation, event handling, selector, document ready
+- **CRUD Operations**: Create, Read, Update, Delete data pengguna
+- **LocalStorage**: Penyimpanan data client-side dengan JSON serialization
+- **Event Delegation**: Menangani event pada elemen dinamis
+- **Form Validation**: Validasi input sebelum menyimpan data
+- **Dynamic UI**: Toggle tombol Add/Update secara dinamis
+
 ### UTS/
 Aplikasi penjualan komputer untuk Ujian Tengah Semester dengan fitur lengkap:
 - **Data Loading**: Load data barang dari JSON menggunakan XMLHttpRequest
@@ -65,6 +74,7 @@ Aplikasi penjualan komputer untuk Ujian Tengah Semester dengan fitur lengkap:
 - **HTML5**: Struktur halaman dan form
 - **CSS3**: Styling dan layout
 - **JavaScript (ES6+)**: Logika aplikasi, DOM manipulation, event handling
+- **jQuery**: Library JavaScript untuk DOM manipulation dan event handling
 - **AJAX/XMLHttpRequest**: Data loading asinkron
 - **localStorage**: Penyimpanan data client-side
 
@@ -83,6 +93,8 @@ Aplikasi penjualan komputer untuk Ujian Tengah Semester dengan fitur lengkap:
 - AJAX data loading
 - Modal pop-ups
 - Form validation
+- jQuery integration
+- CRUD operations dengan localStorage
 
 ### Fitur Lanjutan (UTS)
 - Dynamic data loading dari JSON
@@ -105,6 +117,7 @@ SP3.1 Front End/
 ├── pertemuan_5/        # Event Handling
 ├── pertemuan_6/        # AJAX & DOM
 ├── pertemuan_7/        # Modal & Form
+├── pertemuan_9/        # CRUD jQuery & LocalStorage
 └── UTS/               # Aplikasi UTS Lengkap
 ```
 
