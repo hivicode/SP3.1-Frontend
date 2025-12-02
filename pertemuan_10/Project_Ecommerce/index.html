@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Ecommerce - jQuery UI</title>
+
+    <!-- jQuery UI core -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="brand">
+            <img src="https://ik.imagekit.io/cztmlgsd7n/shopee/shopee-logo.png?updatedAt=1704959533031" alt="Shopee Logo" class="logo">
+            <div>
+                <p class="tagline">Contoh Website Ecommerce</p>
+                <h1>Marketplace Flash Sale</h1>
+            </div>
+        </div>
+        <div class="search-box">
+            <input type="text" placeholder="Cari produk terbaik ...">
+            <button type="button">Cari</button>
+        </div>
+        <button id="cartButton" type="button">Keranjang</button>
+    </header>
+
+    <main>
+        <section class="filter-panel">
+            <div class="price-filter">
+                <div class="filter-header">
+                    <div>
+                        <p class="filter-label">Rentang Harga</p>
+                        <p id="priceLabel">Rp 50.000 - Rp 3.000.000</p>
+                    </div>
+                    <span class="filter-meta">Seret untuk menyesuaikan</span>
+                </div>
+                <div id="priceSlider"></div>
+            </div>
+
+            <div class="category-bar">
+                <button class="active" data-category="all">Semua</button>
+                <button data-category="fashion">Fashion</button>
+                <button data-category="electronics">Elektronik</button>
+                <button data-category="home">Rumah Tangga</button>
+            </div>
+        </section>
+
+        <section class="product-grid">
+            <article class="product-card" data-category="fashion" data-price="350000">
+                <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=500&q=60" alt="Sneakers Street Runner">
+                <div class="product-info">
+                    <div class="pill">Terlaris</div>
+                    <h3>Sneakers Street Runner</h3>
+                    <p class="desc">Sepatu ringan untuk aktivitas harian.</p>
+                    <p class="price">Rp 350.000</p>
+                    <p class="meta">⭐ 4.8 | 1.5K terjual</p>
+                    <button class="add-to-cart">Masukkan ke Keranjang</button>
+                </div>
+            </article>
+
+            <article class="product-card" data-category="fashion" data-price="480000">
+                <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=500&q=60" alt="Tas Kulit Minimalis">
+                <div class="product-info">
+                    <div class="pill">Baru</div>
+                    <h3>Tas Kulit Minimalis</h3>
+                    <p class="desc">Tas klasik cocok untuk segala gaya.</p>
+                    <p class="price">Rp 480.000</p>
+                    <p class="meta">⭐ 4.7 | 950 terjual</p>
+                    <button class="add-to-cart">Masukkan ke Keranjang</button>
+                </div>
+            </article>
+
+            <article class="product-card" data-category="electronics" data-price="1250000">
+                <img src="https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?auto=format&fit=crop&w=500&q=60" alt="Smartwatch Active">
+                <div class="product-info">
+                    <div class="pill">Flash Sale</div>
+                    <h3>Smartwatch Active</h3>
+                    <p class="desc">Pantau kesehatan & notifikasi dalam genggaman.</p>
+                    <p class="price">Rp 1.250.000</p>
+                    <p class="meta">⭐ 4.9 | 2.1K terjual</p>
+                    <button class="add-to-cart">Masukkan ke Keranjang</button>
+                </div>
+            </article>
+
+            <article class="product-card" data-category="electronics" data-price="7500000">
+                <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=500&q=60" alt="Laptop Ultra Thin">
+                <div class="product-info">
+                    <div class="pill">Promo</div>
+                    <h3>Laptop Ultra Thin 14"</h3>
+                    <p class="desc">Performa tinggi untuk kerja & konten.</p>
+                    <p class="price">Rp 7.500.000</p>
+                    <p class="meta">⭐ 4.9 | 530 terjual</p>
+                    <button class="add-to-cart">Masukkan ke Keranjang</button>
+                </div>
+            </article>
+
+            <article class="product-card" data-category="electronics" data-price="890000">
+                <img src="https://images.unsplash.com/photo-1517059224940-d4af9eec41e5?auto=format&fit=crop&w=500&q=60" alt="Headset Gaming RGB">
+                <div class="product-info">
+                    <div class="pill">Gaming</div>
+                    <h3>Headset Gaming RGB</h3>
+                    <p class="desc">Audio surround dengan lampu RGB dinamis.</p>
+                    <p class="price">Rp 890.000</p>
+                    <p class="meta">⭐ 4.6 | 1.2K terjual</p>
+                    <button class="add-to-cart">Masukkan ke Keranjang</button>
+                </div>
+            </article>
+
+            <article class="product-card" data-category="home" data-price="560000">
+                <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&w=500&q=60" alt="Blender Pintar">
+                <div class="product-info">
+                    <div class="pill">Bundel</div>
+                    <h3>Blender Pintar 5-in-1</h3>
+                    <p class="desc">Siap membantu kebutuhan dapur modern.</p>
+                    <p class="price">Rp 560.000</p>
+                    <p class="meta">⭐ 4.5 | 820 terjual</p>
+                    <button class="add-to-cart">Masukkan ke Keranjang</button>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <div id="cartDialog" title="Keranjang Belanja">
+        <ul id="cartItems"></ul>
+        <p class="cart-total">Total: Rp <span id="cartTotal">0</span></p>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
