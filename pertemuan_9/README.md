@@ -85,4 +85,3 @@ Data disimpan dalam format array of objects:
   - Mengganti browser atau perangkat
 - Aplikasi ini adalah contoh client-side storage, untuk aplikasi production sebaiknya menggunakan backend database
 - jQuery digunakan untuk mempermudah DOM manipulation, namun konsep yang sama bisa diimplementasikan dengan vanilla JavaScript
-
