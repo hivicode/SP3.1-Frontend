@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kota>
+    <city>
+        <nama>Banyuwangi</nama>
+        <kode>BW</kode>
+    </city>
+    <city>
+        <nama>Jember</nama>
+        <kode>JM</kode>
+    </city>
+    <city>
+        <nama>Probolinggo</nama>
+        <kode>PB</kode>
+    </city>
+    <city>
+        <nama>Surabaya</nama>
+        <kode>SB</kode>
+    </city>
+</kota>

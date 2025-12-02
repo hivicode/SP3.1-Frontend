@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Events</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #6f42c1;
+            padding-bottom: 10px;
+        }
+        .demo-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #6f42c1;
+        }
+        .btn {
+            padding: 12px 25px;
+            margin: 10px 5px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+        }
+        .btn-purple {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .btn-purple:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .btn-green {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            color: #333;
+        }
+        .btn-pink {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .notification {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+        .notification.show {
+            display: block;
+        }
+        .notification.success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        .notification.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+        .notification.warning {
+            background: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        .cart {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin: 5px 0;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        .cart-total {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: right;
+            padding: 10px;
+            color: #6f42c1;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .product-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid #e9ecef;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-color: #6f42c1;
+        }
+        .product-name {
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .product-price {
+            color: #28a745;
+            font-size: 18px;
+        }
+        .log {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .log-entry {
+            padding: 5px;
+            border-left: 3px solid #6f42c1;
+            margin-bottom: 5px;
+            background: white;
+            font-size: 13px;
+        }
+        .log-entry.custom {
+            border-left-color: #6f42c1;
+            background: #f3e5f5;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Custom Events - Contoh Penggunaan</h1>
+        
+        <p>Custom events memungkinkan kita membuat event sendiri dengan data custom untuk komunikasi antar komponen.</p>
+
+        <!-- DEMO 1: Simple Custom Event -->
+        <div class="demo-section">
+            <h2>1. Simple Custom Event</h2>
+            <button class="btn btn-purple" id="triggerSimple">Trigger Custom Event</button>
+            <div class="notification" id="simpleNotification"></div>
+        </div>
+
+        <!-- DEMO 2: Custom Event with Data -->
+        <div class="demo-section">
+            <h2>2. Custom Event dengan Detail Data</h2>
+            <button class="btn btn-green" id="triggerWithData">Kirim Data via Event</button>
+            <div class="notification" id="dataNotification"></div>
+        </div>
+
+        <!-- DEMO 3: Shopping Cart with Custom Events -->
+        <div class="demo-section">
+            <h2>3. Shopping Cart - Custom Events Demo</h2>
+            <p>Klik produk untuk menambahkan ke keranjang</p>
+            
+            <div class="product-grid" id="productGrid">
+                <!-- Products will be added here -->
+            </div>
+
+            <div class="cart">
+                <h3>🛒 Keranjang Belanja</h3>
+                <div id="cartItems">Keranjang kosong</div>
+                <div class="cart-total" id="cartTotal">Total: Rp 0</div>
+                <button class="btn btn-pink" id="checkout">Checkout</button>
+            </div>
+        </div>
+
+        <!-- DEMO 4: Event Bubbling -->
+        <div class="demo-section">
+            <h2>4. Custom Event Bubbling</h2>
+            <button class="btn btn-purple" id="triggerBubble">Trigger Bubbling Event</button>
+            <div class="notification" id="bubbleNotification"></div>
+        </div>
+
+        <!-- Event Log -->
+        <h2>Event Log</h2>
+        <div class="log" id="eventLog"></div>
+    </div>
+
+    <script>
+        // ==========================================
+        // CUSTOM EVENT EXAMPLES
+        // ==========================================
+        
+        const eventLog = document.getElementById('eventLog');
+        let cart = [];
+
+        function logEvent(message, isCustom = false) {
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry ${isCustom ? 'custom' : ''}`;
+            const timestamp = new Date().toLocaleTimeString();
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            eventLog.insertBefore(logEntry, eventLog.firstChild);
+            
+            if (eventLog.children.length > 25) {
+                eventLog.removeChild(eventLog.lastChild);
+            }
+        }
+
+        function showNotification(elementId, message, type = 'info') {
+            const notification = document.getElementById(elementId);
+            notification.className = `notification ${type} show`;
+            notification.textContent = message;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // ==========================================
+        // DEMO 1: Simple Custom Event
+        // ==========================================
+        
+        // Create custom event
+        const simpleEvent = new Event('myCustomEvent');
+        
+        // Listen for custom event
+        document.addEventListener('myCustomEvent', function() {
+            logEvent('🎯 CUSTOM EVENT: myCustomEvent was triggered!', true);
+            showNotification('simpleNotification', '✅ Custom event berhasil di-trigger!', 'success');
+        });
+        
+        // Trigger custom event
+        document.getElementById('triggerSimple').addEventListener('click', function() {
+            logEvent('Triggering simple custom event...');
+            document.dispatchEvent(simpleEvent);
+        });
+
+        // ==========================================
+        // DEMO 2: Custom Event with Data
+        // ==========================================
+        
+        // Listen for custom event with data
+        document.addEventListener('userData', function(e) {
+            logEvent(`🎯 CUSTOM EVENT with DATA: ${JSON.stringify(e.detail)}`, true);
+            showNotification(
+                'dataNotification',
+                `User: ${e.detail.name}, Email: ${e.detail.email}, Time: ${new Date(e.detail.timestamp).toLocaleTimeString()}`,
+                'info'
+            );
+        });
+        
+        // Trigger custom event with data
+        document.getElementById('triggerWithData').addEventListener('click', function() {
+            const customEvent = new CustomEvent('userData', {
+                detail: {
+                    name: 'John Doe',
+                    email: 'john@example.com',
+                    timestamp: Date.now(),
+                    source: 'button click'
+                }
+            });
+            
+            logEvent('Triggering custom event with user data...');
+            document.dispatchEvent(customEvent);
+        });
+
+        // ==========================================
+        // DEMO 3: Shopping Cart System
+        // ==========================================
+        
+        const products = [
+            { id: 1, name: 'Laptop', price: 10000000, emoji: '💻' },
+            { id: 2, name: 'Mouse', price: 150000, emoji: '🖱️' },
+            { id: 3, name: 'Keyboard', price: 500000, emoji: '⌨️' },
+            { id: 4, name: 'Monitor', price: 2000000, emoji: '🖥️' },
+            { id: 5, name: 'Headphone', price: 750000, emoji: '🎧' },
+            { id: 6, name: 'Webcam', price: 1200000, emoji: '📷' }
+        ];
+        
+        // Render products
+        const productGrid = document.getElementById('productGrid');
+        products.forEach(product => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <div style="font-size: 40px;">${product.emoji}</div>
+                <div class="product-name">${product.name}</div>
+                <div class="product-price">Rp ${product.price.toLocaleString()}</div>
+            `;
+            
+            card.addEventListener('click', function() {
+                // Dispatch custom event untuk add to cart
+                const addToCartEvent = new CustomEvent('addToCart', {
+                    bubbles: true,
+                    detail: { product }
+                });
+                this.dispatchEvent(addToCartEvent);
+            });
+            
+            productGrid.appendChild(card);
+        });
+        
+        // Listen for addToCart event
+        document.addEventListener('addToCart', function(e) {
+            const product = e.detail.product;
+            logEvent(`🎯 CUSTOM EVENT: Product "${product.name}" added to cart`, true);
+            
+            // Add to cart
+            cart.push(product);
+            
+            // Dispatch cart updated event
+            const cartUpdatedEvent = new CustomEvent('cartUpdated', {
+                detail: { cart, total: calculateTotal() }
+            });
+            document.dispatchEvent(cartUpdatedEvent);
+        });
+        
+        // Listen for cartUpdated event
+        document.addEventListener('cartUpdated', function(e) {
+            logEvent(`🎯 CUSTOM EVENT: Cart updated. Items: ${e.detail.cart.length}, Total: Rp ${e.detail.total.toLocaleString()}`, true);
+            updateCartDisplay();
+        });
+        
+        function calculateTotal() {
+            return cart.reduce((sum, item) => sum + item.price, 0);
+        }
+        
+        function updateCartDisplay() {
+            const cartItemsDiv = document.getElementById('cartItems');
+            const cartTotalDiv = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                cartItemsDiv.innerHTML = 'Keranjang kosong';
+            } else {
+                cartItemsDiv.innerHTML = cart.map((item, index) => `
+                    <div class="cart-item">
+                        <span>${item.emoji} ${item.name}</span>
+                        <span>Rp ${item.price.toLocaleString()}</span>
+                    </div>
+                `).join('');
+            }
+            
+            cartTotalDiv.textContent = `Total: Rp ${calculateTotal().toLocaleString()}`;
+        }
+        
+        // Checkout button
+        document.getElementById('checkout').addEventListener('click', function() {
+            if (cart.length === 0) {
+                alert('Keranjang masih kosong!');
+                return;
+            }
+            
+            // Dispatch checkout event
+            const checkoutEvent = new CustomEvent('checkout', {
+                detail: {
+                    items: cart,
+                    total: calculateTotal(),
+                    timestamp: Date.now()
+                }
+            });
+            document.dispatchEvent(checkoutEvent);
+        });
+        
+        // Listen for checkout event
+        document.addEventListener('checkout', function(e) {
+            logEvent(`🎯 CUSTOM EVENT: Checkout initiated. Total: Rp ${e.detail.total.toLocaleString()}`, true);
+            alert(`✅ Checkout berhasil!\n\nTotal Pembayaran: Rp ${e.detail.total.toLocaleString()}\nJumlah Item: ${e.detail.items.length}`);
+            
+            // Clear cart
+            cart = [];
+            updateCartDisplay();
+        });
+
+        // ==========================================
+        // DEMO 4: Event Bubbling
+        // ==========================================
+        
+        document.getElementById('triggerBubble').addEventListener('click', function() {
+            // Custom event with bubbling
+            const bubbleEvent = new CustomEvent('customBubble', {
+                bubbles: true,  // Important: allows event to bubble up
+                detail: { message: 'This event bubbles!' }
+            });
+            
+            logEvent('Triggering custom event with bubbling...');
+            this.dispatchEvent(bubbleEvent);
+        });
+        
+        // Listen at button level
+        document.getElementById('triggerBubble').addEventListener('customBubble', function(e) {
+            logEvent('🎯 CUSTOM BUBBLE caught at BUTTON level', true);
+        });
+        
+        // Listen at container level
+        document.querySelector('.container').addEventListener('customBubble', function(e) {
+            logEvent('🎯 CUSTOM BUBBLE caught at CONTAINER level (bubbled up)', true);
+            showNotification('bubbleNotification', 'Event bubbled up to container!', 'warning');
+        });
+        
+        // Listen at document level
+        document.addEventListener('customBubble', function(e) {
+            logEvent('🎯 CUSTOM BUBBLE caught at DOCUMENT level (bubbled up)', true);
+        });
+
+        // ==========================================
+        // INITIALIZATION
+        // ==========================================
+        
+        logEvent('Custom Events Demo loaded successfully!');
+        logEvent('Try triggering different custom events to see how they work');
+        
+        // Dispatch a welcome event
+        setTimeout(() => {
+            const welcomeEvent = new CustomEvent('appReady', {
+                detail: {
+                    message: 'Application is ready!',
+                    timestamp: Date.now()
+                }
+            });
+            document.dispatchEvent(welcomeEvent);
+        }, 1000);
+        
+        document.addEventListener('appReady', function(e) {
+            logEvent('🎯 CUSTOM EVENT: App initialization complete', true);
+        });
+    </script>
+</body>
+</html>

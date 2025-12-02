@@ -1,0 +1,48 @@
+<!-- for dengan operator in -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Perulangan For Each</title>
+</head>
+<body>
+    <script>
+        var languages = ["Java", "Python", "JavaScript", "C++", "C#"];
+
+        for (i in languages){
+            document.write(i+". " + languages[i] + "<br>");
+        }
+    </script>
+</body>
+</html>
+<!-- for tanpa operator in -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Perulangan For Tanpa Operator In</title>
+</head>
+<body>
+    <script>
+        var languages = ["Java", "Python", "JavaScript", "C++", "C#"];
+
+        for(i = 0; i < languages.length; i++){
+            document.write(i+". " + languages[i] + "<br>");
+        }
+    </script>
+</body>
+</html>
+<!-- for dengan method forEach -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Perulangan For Dengan Method ForEach</title>
+</head>
+<body>
+    <script>
+        var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+        days.forEach((day) => {
+            document.write("<p>" + day + "</p>");
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Biaya Kirim Paket</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border: 1px solid #ccc;
+        }
+        
+        .header {
+            background: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 20px;
+        }
+        
+        .form-container {
+            padding: 20px;
+            border: 1px solid #4CAF50;
+            margin: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .required {
+            color: red;
+        }
+        
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+        
+        .total-cost {
+            background-color: #f0f8f0;
+            border: 1px solid #4CAF50;
+            padding: 10px;
+            font-weight: bold;
+        }
+        
+        .pricing-info {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+        }
+        
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        
+        .pricing-table th, .pricing-table td {
+            border: 1px solid #ddd;
+            padding: 5px;
+            text-align: center;
+        }
+        
+        .pricing-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- <div class="header">
+            Tugas Studi Kasus
+        </div> -->
+        
+        <div class="form-container">
+            <h2 style="text-align: center; color: #4CAF50;">
+                PERHITUNGAN BIAYA KIRIM PAKET
+            </h2>
+            
+            <form id="shippingForm">
+                <div class="form-group">
+                    <label for="resi">Nomor Resi <span class="required">*</span></label>
+                    <input type="text" id="resi" name="resi" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="berat">Berat Barang (Kg) <span class="required">*</span></label>
+                    <input type="text" id="berat" name="berat" placeholder="Contoh: 2.5" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="kotaAsal">Kota Asal <span class="required">*</span></label>
+                    <select id="kotaAsal" name="kotaAsal" required>
+                        <option value="">Pilih Kota Asal</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="kotaTujuan">Kota Tujuan <span class="required">*</span></label>
+                    <select id="kotaTujuan" name="kotaTujuan" required>
+                        <option value="">Pilih Kota Tujuan</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="totalBiaya">Total Biaya Pengiriman</label>
+                    <div class="total-cost">
+                        Rp. <span id="totalBiaya">0</span>
+                    </div>
+                </div>
+            </form>
+            
+            <div class="pricing-info">
+                <h3>Keterangan Biaya:</h3>
+                
+                <h4>Biaya Berat:</h4>
+                <table class="pricing-table">
+                    <tr>
+                        <th>Berat</th>
+                        <th>Rp</th>
+                    </tr>
+                    <tr>
+                        <td>0 - 1 Kg</td>
+                        <td>1.500</td>
+                    </tr>
+                    <tr>
+                        <td>1.1 Kg - 5 Kg</td>
+                        <td>2.500</td>
+                    </tr>
+                    <tr>
+                        <td>5.1 Kg - 10 Kg</td>
+                        <td>3.500</td>
+                    </tr>
+                    <tr>
+                        <td>Diatas 10 Kg</td>
+                        <td>4.500</td>
+                    </tr>
+                </table>
+                
+                <h4>Biaya Jarak:</h4>
+                <table class="pricing-table">
+                    <tr>
+                        <th>Kota</th>
+                        <th>Banyuwangi</th>
+                        <th>Jember</th>
+                        <th>Probolinggo</th>
+                        <th>Surabaya</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Banyuwangi</strong></td>
+                        <td>5.000</td>
+                        <td>7.500</td>
+                        <td>10.000</td>
+                        <td>15.000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Jember</strong></td>
+                        <td>7.500</td>
+                        <td>5.000</td>
+                        <td>8.500</td>
+                        <td>12.500</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Probolinggo</strong></td>
+                        <td>10.000</td>
+                        <td>8.500</td>
+                        <td>5.000</td>
+                        <td>6.500</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Surabaya</strong></td>
+                        <td>15.000</td>
+                        <td>12.500</td>
+                        <td>6.500</td>
+                        <td>5.000</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="shipping-calculator.js"></script>
+</body>
+</html>

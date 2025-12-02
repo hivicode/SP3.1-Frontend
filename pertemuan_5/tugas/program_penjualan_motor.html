@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program Penjualan Motor - Event Handling</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: rgb(58, 58, 58);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        select, input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ced4da;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        /* MOUSE EVENT - Hover effect */
+        select:hover, input:hover {
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+        }
+
+        /* FORM EVENT - Focus effect */
+        select:focus, input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.3);
+            transform: scale(1.02);
+        }
+
+        .checkbox-group, .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .checkbox-item, .radio-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        /* MOUSE EVENT - Hover on checkbox/radio items */
+        .checkbox-item:hover, .radio-item:hover {
+            background: #e7f5ff;
+            transform: translateX(5px);
+        }
+
+        input[type="checkbox"], input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* CLICK EVENT & MOUSE EVENT - Button hover */
+        .btn-process {
+            background: grey;
+            color: white;
+        }
+
+        .btn-process:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-process:active {
+            transform: translateY(0);
+        }
+
+        .btn-reset {
+            background: red;
+            color: white;
+        }
+
+        .btn-reset:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(245, 87, 108, 0.4);
+        }
+
+        .btn-reset:active {
+            transform: translateY(0);
+        }
+
+        .tables-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        th {
+            background: grey;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .event-log {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .event-log h3 {
+            margin-bottom: 15px;
+            color: #495057;
+        }
+
+        .log-entry {
+            padding: 8px;
+            margin-bottom: 5px;
+            background: white;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #6c757d;
+            border-left: 3px solid #28a745;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .log-entry.click { border-left-color: #007bff; }
+        .log-entry.change { border-left-color: #28a745; }
+        .log-entry.mouse { border-left-color: #ffc107; }
+        .log-entry.keyboard { border-left-color: #dc3545; }
+        .log-entry.form { border-left-color: #17a2b8; }
+        .log-entry.custom { border-left-color: #6f42c1; }
+
+        .highlight {
+            animation: highlight 0.5s ease;
+        }
+
+        @keyframes highlight {
+            0%, 100% { background: transparent; }
+            50% { background: #fff3cd; }
+        }
+
+        .result-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgb(178, 223, 173);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .result-box.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        .result-box h3 {
+            margin-bottom: 10px;
+            color: #000000;
+        }
+
+        @media (max-width: 968px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Program Penjualan Motor</h1>
+        
+        <div class="main-content">
+            <!-- FORM SECTION -->
+            <div>
+                <div class="form-section">
+                    <form id="motorForm">
+                        <!-- SELECT - CHANGE EVENT -->
+                        <div class="form-group">
+                            <label for="merkMotor">Merk Motor</label>
+                            <select id="merkMotor" name="merkMotor" required>
+                                <option value="">Pilih Merk Motor</option>
+                                <option value="Honda" data-price="15000000">HONDA</option>
+                                <option value="Yamaha" data-price="14000000">YAMAHA</option>
+                                <option value="Suzuki" data-price="13000000">SUZUKI</option>
+                            </select>
+                        </div>
+
+                        <!-- CHECKBOX - CHANGE EVENT -->
+                        <div class="form-group">
+                            <label>Aksesoris</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="velg" name="aksesoris" value="Velg Racing" data-price="450000">
+                                    <label for="velg" style="margin: 0; cursor: pointer;">Velg Racing (Rp 450.000)</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="helm" name="aksesoris" value="Helm" data-price="250000">
+                                    <label for="helm" style="margin: 0; cursor: pointer;">Helm (Rp 250.000)</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="jaket" name="aksesoris" value="Jaket" data-price="300000">
+                                    <label for="jaket" style="margin: 0; cursor: pointer;">Jaket (Rp 300.000)</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- RADIO BUTTON - CHANGE EVENT -->
+                        <div class="form-group">
+                            <label>Cara Pembayaran</label>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" id="tunai" name="pembayaran" value="Tunai" checked>
+                                    <label for="tunai" style="margin: 0; cursor: pointer;">Tunai (Diskon 10%)</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="kredit" name="pembayaran" value="Kredit">
+                                    <label for="kredit" style="margin: 0; cursor: pointer;">Kredit (Bunga 15%)</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- KEYBOARD EVENT -->
+                        <div class="form-group">
+                            <label for="harga">Harga (Auto-calculated)</label>
+                            <input type="text" id="harga" name="harga" readonly placeholder="Harga akan dihitung otomatis">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="diskon">Bunga/Diskon (%)</label>
+                            <input type="text" id="diskon" name="diskon" readonly placeholder="Otomatis berdasarkan pembayaran">
+                        </div>
+
+                        <!-- KEYBOARD EVENT - Manual input -->
+                        <div class="form-group">
+                            <label for="total">Total Pembayaran</label>
+                            <input type="text" id="total" name="total" readonly placeholder="Total akan dihitung setelah proses">
+                        </div>
+
+                        <!-- CLICK EVENT - Buttons -->
+                        <div class="button-group">
+                            <button type="submit" class="btn-process">Proses</button>
+                            <button type="reset" class="btn-reset">Reset</button>
+                        </div>
+                    </form>
+
+                    <div class="result-box" id="resultBox">
+                        <h3>Hasil Perhitungan:</h3>
+                        <div id="resultContent"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABLES SECTION -->
+            <div class="tables-section">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Merk Motor</th>
+                            <th>Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Honda</td>
+                            <td>Rp 15.000.000</td>
+                        </tr>
+                        <tr>
+                            <td>Yamaha</td>
+                            <td>Rp 14.000.000</td>
+                        </tr>
+                        <tr>
+                            <td>Suzuki</td>
+                            <td>Rp 13.000.000</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aksesoris</th>
+                            <th>Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Velg Racing</td>
+                            <td>Rp 450.000</td>
+                        </tr>
+                        <tr>
+                            <td>Helm</td>
+                            <td>Rp 250.000</td>
+                        </tr>
+                        <tr>
+                            <td>Jaket</td>
+                            <td>Rp 300.000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- EVENT LOG -->
+        <div class="event-log">
+            <h3>📋 Event Log (Real-time event monitoring)</h3>
+            <div id="eventLog"></div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // GLOBAL VARIABLES
+        // ==========================================
+        const eventLog = document.getElementById('eventLog');
+        let eventCounter = 0;
+
+        // ==========================================
+        // UTILITY FUNCTIONS
+        // ==========================================
+        function logEvent(message, type = 'default') {
+            eventCounter++;
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry ${type}`;
+            const timestamp = new Date().toLocaleTimeString();
+            logEntry.innerHTML = `<strong>#${eventCounter}</strong> [${timestamp}] <strong>${type.toUpperCase()}</strong>: ${message}`;
+            eventLog.insertBefore(logEntry, eventLog.firstChild);
+            
+            // Keep only last 20 entries
+            if (eventLog.children.length > 20) {
+                eventLog.removeChild(eventLog.lastChild);
+            }
+        }
+
+        function formatCurrency(number) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(number);
+        }
+
+        // ==========================================
+        // 1. CLICK EVENTS
+        // ==========================================
+        
+        // Form submit button (proses)
+        document.getElementById('motorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            logEvent('Form submitted - Button "Proses" clicked', 'click');
+            processForm();
+        });
+
+        // Reset button
+        document.getElementById('motorForm').addEventListener('reset', function(e) {
+            logEvent('Form reset - Button "Reset" clicked', 'click');
+            setTimeout(() => {
+                document.getElementById('resultBox').classList.remove('show');
+                logEvent('Form cleared successfully', 'form');
+            }, 100);
+        });
+
+        // Click event on table rows
+        document.querySelectorAll('table tbody tr').forEach(row => {
+            row.addEventListener('click', function() {
+                logEvent(`Table row clicked: ${this.cells[0].textContent}`, 'click');
+                this.classList.add('highlight');
+                setTimeout(() => this.classList.remove('highlight'), 500);
+            });
+        });
+
+        // ==========================================
+        // 2. CHANGE EVENTS
+        // ==========================================
+        
+        // Select change event
+        document.getElementById('merkMotor').addEventListener('change', function(e) {
+            const selectedOption = this.options[this.selectedIndex];
+            const merkMotor = this.value;
+            const price = selectedOption.dataset.price;
+            
+            if (merkMotor) {
+                logEvent(`Merk motor changed to: ${merkMotor} (${formatCurrency(price)})`, 'change');
+                calculatePrice();
+            }
+        });
+
+        // Checkbox change events
+        document.querySelectorAll('input[name="aksesoris"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function(e) {
+                const action = this.checked ? 'selected' : 'unselected';
+                const price = this.dataset.price;
+                logEvent(`Aksesoris ${action}: ${this.value} (${formatCurrency(price)})`, 'change');
+                calculatePrice();
+            });
+        });
+
+        // Radio button change events
+        document.querySelectorAll('input[name="pembayaran"]').forEach(radio => {
+            radio.addEventListener('change', function(e) {
+                const paymentMethod = this.value;
+                const info = paymentMethod === 'Tunai' ? 'Diskon 10%' : 'Bunga 15%';
+                logEvent(`Cara pembayaran changed to: ${paymentMethod} (${info})`, 'change');
+                calculatePrice();
+            });
+        });
+
+        // ==========================================
+        // 3. MOUSE EVENTS
+        // ==========================================
+        
+        // Mouse enter/leave on form inputs
+        document.querySelectorAll('input, select').forEach(element => {
+            element.addEventListener('mouseenter', function() {
+                logEvent(`Mouse entered: ${this.name || this.id}`, 'mouse');
+            });
+            
+            element.addEventListener('mouseleave', function() {
+                logEvent(`Mouse left: ${this.name || this.id}`, 'mouse');
+            });
+        });
+
+        // Mouse events on buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', function() {
+                logEvent(`Mouse down on button: ${this.textContent}`, 'mouse');
+            });
+            
+            button.addEventListener('mouseup', function() {
+                logEvent(`Mouse up on button: ${this.textContent}`, 'mouse');
+            });
+        });
+
+        // ==========================================
+        // 4. KEYBOARD EVENTS
+        // ==========================================
+        
+        // Keyboard events on all inputs
+        document.querySelectorAll('input[type="text"], input[type="number"]').forEach(input => {
+            input.addEventListener('keydown', function(e) {
+                logEvent(`Key down: ${e.key} in field ${this.id}`, 'keyboard');
+            });
+            
+            input.addEventListener('keyup', function(e) {
+                logEvent(`Key up: ${e.key} in field ${this.id}`, 'keyboard');
+            });
+            
+            input.addEventListener('keypress', function(e) {
+                logEvent(`Key press: ${e.key} in field ${this.id}`, 'keyboard');
+            });
+        });
+
+        // Global keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl + Enter to submit
+            if (e.ctrlKey && e.key === 'Enter') {
+                e.preventDefault();
+                logEvent('Keyboard shortcut: Ctrl+Enter (Submit form)', 'keyboard');
+                document.getElementById('motorForm').dispatchEvent(new Event('submit'));
+            }
+            
+            // Ctrl + R to reset
+            if (e.ctrlKey && e.key === 'r') {
+                e.preventDefault();
+                logEvent('Keyboard shortcut: Ctrl+R (Reset form)', 'keyboard');
+                document.getElementById('motorForm').reset();
+            }
+        });
+
+        // ==========================================
+        // 5. FORM EVENTS
+        // ==========================================
+        
+        // Focus events
+        document.querySelectorAll('input, select').forEach(element => {
+            element.addEventListener('focus', function() {
+                logEvent(`Focus on: ${this.name || this.id}`, 'form');
+            });
+            
+            element.addEventListener('blur', function() {
+                logEvent(`Blur from: ${this.name || this.id}`, 'form');
+            });
+        });
+
+        // Form validation
+        document.getElementById('motorForm').addEventListener('invalid', function(e) {
+            e.preventDefault();
+            logEvent(`Form validation failed: ${e.target.id} is invalid`, 'form');
+        }, true);
+
+        // Input event
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', function() {
+                logEvent(`Input changed in: ${this.id}`, 'form');
+            });
+        });
+
+        // ==========================================
+        // 6. CUSTOM EVENTS
+        // ==========================================
+        
+        // Define custom event for price calculation
+        const priceCalculatedEvent = new CustomEvent('priceCalculated', {
+            bubbles: true,
+            detail: { timestamp: Date.now() }
+        });
+
+        // Define custom event for purchase complete
+        const purchaseCompleteEvent = new CustomEvent('purchaseComplete', {
+            bubbles: true,
+            detail: {}
+        });
+
+        // Listen for custom events
+        document.addEventListener('priceCalculated', function(e) {
+            logEvent(`Custom Event: Price calculation completed at ${new Date(e.detail.timestamp).toLocaleTimeString()}`, 'custom');
+        });
+
+        document.addEventListener('purchaseComplete', function(e) {
+            logEvent(`Custom Event: Purchase completed! Details: ${JSON.stringify(e.detail)}`, 'custom');
+            
+            // Show celebration animation or notification
+            setTimeout(() => {
+                alert(`🎉 Pembelian Berhasil!\n\nMerk: ${e.detail.merk}\nTotal: ${formatCurrency(e.detail.total)}\nMetode: ${e.detail.pembayaran}`);
+            }, 500);
+        });
+
+        // ==========================================
+        // BUSINESS LOGIC FUNCTIONS
+        // ==========================================
+        
+        function calculatePrice() {
+            const merkSelect = document.getElementById('merkMotor');
+            const selectedOption = merkSelect.options[merkSelect.selectedIndex];
+            
+            if (!merkSelect.value) {
+                document.getElementById('harga').value = '';
+                document.getElementById('diskon').value = '';
+                return;
+            }
+            
+            // Get motor price
+            let motorPrice = parseInt(selectedOption.dataset.price);
+            
+            // Get accessories total
+            let accessoriesTotal = 0;
+            document.querySelectorAll('input[name="aksesoris"]:checked').forEach(checkbox => {
+                accessoriesTotal += parseInt(checkbox.dataset.price);
+            });
+            
+            // Total price
+            const totalPrice = motorPrice + accessoriesTotal;
+            document.getElementById('harga').value = formatCurrency(totalPrice);
+            
+            // Get payment method
+            const paymentMethod = document.querySelector('input[name="pembayaran"]:checked').value;
+            const percentage = paymentMethod === 'Tunai' ? 10 : 15;
+            document.getElementById('diskon').value = `${percentage}%`;
+            
+            // Dispatch custom event
+            document.dispatchEvent(priceCalculatedEvent);
+        }
+
+        function processForm() {
+            const merkMotor = document.getElementById('merkMotor').value;
+            
+            if (!merkMotor) {
+                alert('⚠️ Silakan pilih merk motor terlebih dahulu!');
+                logEvent('Process failed: No motorcycle brand selected', 'form');
+                return;
+            }
+            
+            // Get values
+            const merkSelect = document.getElementById('merkMotor');
+            const selectedOption = merkSelect.options[merkSelect.selectedIndex];
+            const motorPrice = parseInt(selectedOption.dataset.price);
+            
+            // Get accessories
+            let accessoriesTotal = 0;
+            const selectedAccessories = [];
+            document.querySelectorAll('input[name="aksesoris"]:checked').forEach(checkbox => {
+                accessoriesTotal += parseInt(checkbox.dataset.price);
+                selectedAccessories.push(checkbox.value);
+            });
+            
+            // Total before discount/interest
+            const subtotal = motorPrice + accessoriesTotal;
+            
+            // Get payment method
+            const paymentMethod = document.querySelector('input[name="pembayaran"]:checked').value;
+            
+            // Calculate discount or interest
+            let finalTotal;
+            let adjustmentAmount;
+            
+            if (paymentMethod === 'Tunai') {
+                // Discount 10%
+                adjustmentAmount = subtotal * 0.10;
+                finalTotal = subtotal - adjustmentAmount;
+            } else {
+                // Interest 15%
+                adjustmentAmount = subtotal * 0.15;
+                finalTotal = subtotal + adjustmentAmount;
+            }
+            
+            // Update total field
+            document.getElementById('total').value = formatCurrency(finalTotal);
+            
+            // Show result box
+            const resultBox = document.getElementById('resultBox');
+            const resultContent = document.getElementById('resultContent');
+            
+            resultContent.innerHTML = `
+                <p><strong>Merk Motor:</strong> ${merkMotor}</p>
+                <p><strong>Harga Motor:</strong> ${formatCurrency(motorPrice)}</p>
+                <p><strong>Aksesoris:</strong> ${selectedAccessories.length > 0 ? selectedAccessories.join(', ') : 'Tidak ada'}</p>
+                <p><strong>Total Aksesoris:</strong> ${formatCurrency(accessoriesTotal)}</p>
+                <p><strong>Subtotal:</strong> ${formatCurrency(subtotal)}</p>
+                <p><strong>Cara Pembayaran:</strong> ${paymentMethod}</p>
+                <p><strong>${paymentMethod === 'Tunai' ? 'Diskon' : 'Bunga'} (${paymentMethod === 'Tunai' ? '10' : '15'}%):</strong> ${formatCurrency(adjustmentAmount)}</p>
+                <p style="font-size: 1.2em; color: #0d6efd; margin-top: 10px;"><strong>TOTAL PEMBAYARAN:</strong> ${formatCurrency(finalTotal)}</p>
+            `;
+            
+            resultBox.classList.add('show');
+            
+            // Dispatch custom event for purchase complete
+            const purchaseEvent = new CustomEvent('purchaseComplete', {
+                bubbles: true,
+                detail: {
+                    merk: merkMotor,
+                    total: finalTotal,
+                    pembayaran: paymentMethod,
+                    aksesoris: selectedAccessories,
+                    timestamp: Date.now()
+                }
+            });
+            document.dispatchEvent(purchaseEvent);
+            
+            logEvent(`Form processed successfully! Final total: ${formatCurrency(finalTotal)}`, 'form');
+        }
+
+        // ==========================================
+        // INITIALIZATION
+        // ==========================================
+        
+        window.addEventListener('load', function() {
+            logEvent('🚀 Application loaded successfully! All events are now being monitored.', 'custom');
+            logEvent('💡 Keyboard shortcuts: Ctrl+Enter (Submit), Ctrl+R (Reset)', 'custom');
+        });
+
+        // Log page visibility changes
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                logEvent('Page is now hidden', 'custom');
+            } else {
+                logEvent('Page is now visible', 'custom');
+            }
+        });
+    </script>
+</body>
+</html>

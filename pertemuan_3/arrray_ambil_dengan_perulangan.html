@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ambil array dengan perulangan</title>
+</head>
+<body>
+    <script>
+
+        //membuat array
+        var products = ["Laptop", "Mouse", "Keyboard", "Monitor", "Speaker"];
+        
+        document.write("<h3.daftar produk</h3>");
+        document.write("<ol>");
+        
+        //menggunakan perulangan untuk mencetak semua isi array
+        for(let i = 0; i < products.length; i++){
+            document.write("<li>" + products[i] + "</li>");
+        }
+
+        document.write("</ol>");
+    </script>
+</body>
+</html>
+
+<!-- ambil array dengan perulangan forEach -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ambil array dengan perulangan forEach</title>
+</head>
+<body>
+    <script>
+        //membuat array
+        var products = ["Laptop", "Mouse", "Keyboard", "Monitor", "Speaker"];
+        
+        document.write("<h3.daftar produk</h3>");
+        document.write("<ol>");
+        
+        //menggunakan perulangan forEach untuk mencetak semua isi array
+        products.forEach(product => {
+            document.write("<li>" + product + "</li>");
+        });
+
+        document.write("</ol>");
+    </script>
+</body>
+</html>
