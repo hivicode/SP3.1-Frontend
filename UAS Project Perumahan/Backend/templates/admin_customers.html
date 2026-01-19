@@ -1,0 +1,67 @@
+{% extends "admin_base.html" %}
+{% set active_page = "customers" %}
+{% block content %}
+  <!-- ==========================================================================
+       CUSTOMER CONTENT
+       ========================================================================== -->
+  <div class="header">
+    <div>
+      <h1 class="title">Customer</h1>
+      <p class="subtitle">Daftar booking dan kontak pelanggan terbaru.</p>
+    </div>
+    <div class="actions">
+      <span class="pill">Live data</span>
+    </div>
+  </div>
+
+  <div class="card">
+    {% if booking_list %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nama</th>
+            <th>Properti</th>
+            <th>Kontak</th>
+            <th>Metode</th>
+            <th>Status</th>
+            <th>Booking Fee</th>
+            <th>Tanggal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for booking in booking_list %}
+            <tr>
+              <td>
+                <strong>{{ booking.nama_depan }} {{ booking.nama_belakang }}</strong>
+                <div class="muted">ID {{ booking.id }}</div>
+              </td>
+              <td>
+                <div>{{ booking.nama_rumah }}</div>
+                <div class="muted">{{ booking.alamat }}, {{ booking.kota }}</div>
+              </td>
+              <td>
+                <div>{{ booking.email }}</div>
+                <div class="muted">{{ booking.telepon }}</div>
+              </td>
+              <td><span class="pill">{{ booking.metode_pembayaran }}</span></td>
+              <td>
+                <form method="post" action="{{ url_for('admin_booking_status', booking_id=booking.id) }}" style="display:flex; gap:0.5rem; align-items:center;">
+                  <select name="status" class="input" style="padding:0.4rem 0.6rem; min-width: 120px;">
+                    {% for opt in ['pending','confirmed','cancelled'] %}
+                      <option value="{{ opt }}" {% if booking.status == opt %}selected{% endif %}>{{ opt }}</option>
+                    {% endfor %}
+                  </select>
+                  <button class="btn" type="submit" style="padding:0.55rem 0.9rem;">Update</button>
+                </form>
+              </td>
+              <td>{{ booking.booking_fee | rupiah }}</td>
+              <td class="muted">{{ booking.dibuat_pada | dt_id }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="muted">Belum ada booking masuk.</p>
+    {% endif %}
+  </div>
+{% endblock %}

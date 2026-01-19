@@ -1,0 +1,173 @@
+{% extends "admin_base.html" %}
+{% set active_page = "create" %}
+{% block content %}
+  <!-- ==========================================================================
+       FORM CONTENT
+       ========================================================================== -->
+  <div class="header">
+    <div>
+      <h1 class="title">{{ 'Edit Properti' if properti else 'Tambah Properti' }}</h1>
+      <p class="subtitle">Lengkapi detail properti dan unggah beberapa gambar.</p>
+    </div>
+    <div class="actions">
+      <a class="btn secondary" href="{{ url_for('admin_index') }}">Kembali</a>
+    </div>
+  </div>
+
+  <form method="post" enctype="multipart/form-data">
+    <div class="card" style="display:grid; grid-template-columns: minmax(320px, 1fr) 1fr; gap:1rem; align-items:start;">
+      {% if error %}
+        <div class="error" style="grid-column:1 / -1;">{{ error }}</div>
+      {% endif %}
+
+      <div style="display:grid; gap:0.75rem;">
+        <label style="font-weight:700;">Gambar (bisa multiple)</label>
+        <div id="heroZone" style="width:100%; aspect-ratio:16/9; border:1px dashed var(--border); border-radius:0.75rem; overflow:hidden; display:block; background:linear-gradient(135deg, #dcd7c9, #c7c1b1); position:relative;">
+          <img id="heroPreview" alt="Preview hero" style="width:100%; height:100%; object-fit:cover; display:none;">
+          <div id="heroPlaceholder" style="position:absolute; inset:0; display:grid; place-items:center; color:var(--muted); font-weight:700;">
+            <span class="material-symbols-rounded" style="font-size:48px;">add_photo_alternate</span>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:0.5rem;">
+          <div id="thumbZone1" class="preview-thumb" style="aspect-ratio:4/3; border:1px dashed var(--border); border-radius:0.6rem; background:#e8e2d4; overflow:hidden; display:grid; place-items:center; color:var(--muted);">
+            <img id="thumb1" style="width:100%; height:100%; object-fit:cover; display:none;">
+            <span class="material-symbols-rounded" style="font-size:32px;">add_photo_alternate</span>
+          </div>
+          <div id="thumbZone2" class="preview-thumb" style="aspect-ratio:4/3; border:1px dashed var(--border); border-radius:0.6rem; background:#e8e2d4; overflow:hidden; display:grid; place-items:center; color:var(--muted);">
+            <img id="thumb2" style="width:100%; height:100%; object-fit:cover; display:none;">
+            <span class="material-symbols-rounded" style="font-size:32px;">add_photo_alternate</span>
+          </div>
+          <div id="thumbZone3" class="preview-thumb" style="aspect-ratio:4/3; border:1px dashed var(--border); border-radius:0.6rem; background:#e8e2d4; overflow:hidden; display:grid; place-items:center; color:var(--muted);">
+            <img id="thumb3" style="width:100%; height:100%; object-fit:cover; display:none;">
+            <span class="material-symbols-rounded" style="font-size:32px;">add_photo_alternate</span>
+          </div>
+        </div>
+        <input class="input" id="gambar" name="gambar" type="file" accept="image/*" multiple>
+        {% if properti %}
+          <div class="muted">Upload gambar baru untuk mengganti semua gambar sebelumnya.</div>
+        {% endif %}
+      </div>
+
+      <div class="grid" style="gap:1rem;">
+        <div class="form-grid">
+          <div class="field">
+            <label for="kode_rumah">Kode rumah</label>
+            <input class="input" id="kode_rumah" name="kode_rumah" value="{{ properti.kode_rumah if properti }}" {% if properti %}readonly{% endif %} required inputmode="numeric" pattern="[0-9]+" placeholder="123">
+          </div>
+          <div class="field">
+            <label for="nama_rumah">Nama rumah</label>
+            <input class="input" id="nama_rumah" name="nama_rumah" value="{{ properti.nama_rumah if properti }}" required placeholder="Nama properti">
+          </div>
+          <div class="field">
+            <label for="alamat">Alamat</label>
+            <input class="input" id="alamat" name="alamat" value="{{ properti.alamat if properti }}" required placeholder="Jl. Contoh No. 1">
+          </div>
+          <div class="field">
+            <label for="kota">Kota</label>
+            <input class="input" id="kota" name="kota" value="{{ properti.kota if properti }}" required placeholder="Bandung">
+          </div>
+          <div class="field">
+            <label for="tipe">Tipe</label>
+            <input class="input" id="tipe" name="tipe" value="{{ properti.tipe if properti }}" required placeholder="house / villa / apartment">
+          </div>
+          <div class="field">
+            <label for="harga">Harga</label>
+            <input class="input" id="harga" name="harga" type="number" value="{{ properti.harga if properti }}" required placeholder="2000000000">
+          </div>
+          <div class="field">
+            <label for="rating">Rating</label>
+            <input class="input" id="rating" name="rating" type="number" step="0.1" max="5" min="0" value="{{ properti.rating if properti else 0 }}" placeholder="4.5">
+          </div>
+          <div class="field">
+            <label for="kamar_tidur">Kamar tidur</label>
+            <input class="input" id="kamar_tidur" name="kamar_tidur" type="number" value="{{ properti.kamar_tidur if properti }}" required placeholder="3">
+          </div>
+          <div class="field">
+            <label for="kamar_mandi">Kamar mandi</label>
+            <input class="input" id="kamar_mandi" name="kamar_mandi" type="number" value="{{ properti.kamar_mandi if properti }}" required placeholder="2">
+          </div>
+          <div class="field">
+            <label for="luas_tanah">Luas tanah</label>
+            <input class="input" id="luas_tanah" name="luas_tanah" type="number" value="{{ properti.luas_tanah if properti }}" required placeholder="300">
+          </div>
+          <div class="field">
+            <label for="luas_bangunan">Luas bangunan</label>
+            <input class="input" id="luas_bangunan" name="luas_bangunan" type="number" value="{{ properti.luas_bangunan if properti }}" required placeholder="180">
+          </div>
+          <div class="field">
+            <label for="garasi">Garasi</label>
+            <input class="input" id="garasi" name="garasi" type="number" value="{{ properti.garasi if properti }}" required placeholder="2">
+          </div>
+          <div class="field full">
+            <label>Fitur</label>
+            <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+              {% set fset = properti.fitur if properti and properti.fitur else [] %}
+              {% for opt in ['parking','pool','garden','gym'] %}
+                <label class="rent-check" style="gap:0.35rem; font-size:0.9rem;">
+                  <input type="checkbox" name="fitur" value="{{ opt }}" {% if opt in fset %}checked{% endif %}>
+                  <span>{{ opt }}</span>
+                </label>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <div class="field full">
+          <label for="deskripsi">Deskripsi</label>
+          <textarea class="textarea" id="deskripsi" name="deskripsi" placeholder="Deskripsi singkat properti">{{ properti.deskripsi if properti }}</textarea>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end;">
+          <button class="btn" type="submit">Simpan</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <script>
+    (function() {
+      const fileInput = document.getElementById("gambar");
+      const heroImg = document.getElementById("heroPreview");
+      const heroPlaceholder = document.getElementById("heroPlaceholder");
+      const thumbs = [document.getElementById("thumb1"), document.getElementById("thumb2"), document.getElementById("thumb3")];
+
+      const updatePreview = (files) => {
+        const list = Array.from(files || []).slice(0, 4);
+        // hero
+        if (list[0]) {
+          heroImg.src = URL.createObjectURL(list[0]);
+          heroImg.style.display = "block";
+          if (heroPlaceholder) heroPlaceholder.style.display = "none";
+        } else {
+          heroImg.style.display = "none";
+          if (heroPlaceholder) heroPlaceholder.style.display = "grid";
+        }
+        // thumbs
+        thumbs.forEach((img, idx) => {
+          const file = list[idx + 1];
+          if (file) {
+            img.src = URL.createObjectURL(file);
+            img.style.display = "block";
+            if (img.parentElement) {
+              const icon = img.parentElement.querySelector(".material-symbols-rounded");
+              if (icon) icon.style.display = "none";
+            }
+          } else {
+            img.removeAttribute("src");
+            img.style.display = "none";
+            if (img.parentElement) {
+              const icon = img.parentElement.querySelector(".material-symbols-rounded");
+              if (icon) icon.style.display = "grid";
+            }
+          }
+        });
+      };
+
+      if (fileInput) {
+        fileInput.addEventListener("change", (e) => {
+          updatePreview(e.target.files);
+        });
+      }
+    })();
+  </script>
+{% endblock %}

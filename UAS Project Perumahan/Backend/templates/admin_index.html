@@ -1,0 +1,85 @@
+{% extends "admin_base.html" %}
+{% set active_page = "dashboard" %}
+{% block content %}
+  <!-- ==========================================================================
+       DASHBOARD CONTENT
+       ========================================================================== -->
+  <div class="header">
+    <div>
+      <h1 class="title">Dashboard</h1>
+      <p class="subtitle">Ringkasan listing dan kondisi terbaru properti.</p>
+    </div>
+    <div class="actions">
+      <a class="btn" href="{{ url_for('admin_add') }}">Tambah Properti</a>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-title">Total Listing</div>
+      <div class="stat-value">{{ properti_list | length }}</div>
+      <div class="muted">Tersimpan di database.</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-title">Tipe Teratas</div>
+      <div class="stat-value">{{ top_type }}</div>
+      <div class="muted">Kategori terbanyak.</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-title">Status Booking</div>
+      <div class="stat-value">{{ booking_counts.total }}</div>
+      <div class="muted">Pending: {{ booking_counts.pending }}, Confirmed: {{ booking_counts.confirmed }}, Cancelled: {{ booking_counts.cancelled }}</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top: 1.5rem;">
+    {% if properti_list %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Kode</th>
+            <th>Nama</th>
+            <th>Alamat</th>
+            <th>Harga</th>
+            <th>Gambar</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for properti in properti_list %}
+            <tr>
+              <td>{{ properti.kode_rumah }}</td>
+              <td>
+                <strong>{{ properti.nama_rumah }}</strong>
+                <div class="muted">{{ properti.kota }} • {{ properti.tipe }}</div>
+              </td>
+              <td>{{ properti.alamat }}</td>
+              <td>{{ properti.harga | rupiah }}</td>
+              <td>
+                <div class="thumbs">
+                  {% for img in properti.gambar %}
+                    <img src="{{ img }}" alt="{{ properti.nama_rumah }}">
+                  {% endfor %}
+                </div>
+              </td>
+              <td>
+                <div class="actions">
+                  <a class="icon-btn" href="{{ url_for('admin_edit', kode=properti.kode_rumah) }}">
+                    <span class="material-symbols-rounded">edit</span>
+                  </a>
+                  <form method="post" action="{{ url_for('admin_delete', kode=properti.kode_rumah) }}" onsubmit="return confirm('Hapus properti ini?');">
+                    <button class="icon-btn danger" type="submit">
+                      <span class="material-symbols-rounded">delete</span>
+                    </button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="muted">Belum ada data. Silakan tambahkan properti baru.</p>
+    {% endif %}
+  </div>
+{% endblock %}
